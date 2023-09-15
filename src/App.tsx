@@ -1,11 +1,7 @@
-import { ClubCategory } from './Private'
+import { AppRouter } from './Router';
 
 function App() {
-  return (
-    <>
-      <ClubCategory/>
-    </>
-  )
+  return <AppRouter />;
 }
 
-export default App
+export default App;

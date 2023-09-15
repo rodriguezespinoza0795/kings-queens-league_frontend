@@ -1,9 +1,6 @@
-import { ClubCategory } from "@/types";
-
 export type BasicTableProps = {
-    headers:{key:string,name:string, type:string}[],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rows: any[],
-    deleteItem: (id:string) => void,
-    updateItem: (data: ClubCategory) => void
-}
+  headers: { key: string; name: string; type: string }[];
+  rows: any[];
+  deleteItem: (data: any) => void;
+  updateItem: (data: any) => void;
+};
