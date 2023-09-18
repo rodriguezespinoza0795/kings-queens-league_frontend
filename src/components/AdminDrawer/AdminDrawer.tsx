@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Category, Groups } from '@mui/icons-material';
+import { Category, Groups, Radar } from '@mui/icons-material';
 import { routesPath } from './AdminDrawer.utils';
 
 const TemporaryDrawer = () => {
@@ -35,6 +35,8 @@ const TemporaryDrawer = () => {
         return <Category />;
       case 'GroupsIcon':
         return <Groups />;
+      case 'RadarIcon':
+        return <Radar />;
     }
   };
 

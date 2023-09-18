@@ -1,0 +1,28 @@
+query Positions($where: NameWhereInput) {
+  positions(where: $where) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation CreatePosition($data: PositionInput!) {
+  createPosition(data: $data) {
+    id
+  }
+}
+
+mutation UpdatePosition($PositionId: ID!, $data: PositionInput!) {
+  updatePosition(id: $PositionId, data: $data) {
+    id
+  }
+}
+
+mutation DeletePosition($PositionId: ID!) {
+  deletePosition(id: $PositionId) {
+    id
+  }
+}

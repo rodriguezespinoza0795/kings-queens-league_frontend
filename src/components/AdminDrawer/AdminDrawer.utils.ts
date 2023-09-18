@@ -10,5 +10,11 @@ export const routesPath = [
     label: 'Club',
     route: 'club',
     icon: 'GroupsIcon'
+  },
+  {
+    key: 'position',
+    label: 'Position',
+    route: 'position',
+    icon: 'RadarIcon'
   }
 ]

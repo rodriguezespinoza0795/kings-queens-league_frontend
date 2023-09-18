@@ -1,4 +1,4 @@
-query ClubCategories($where: ClubCategoryWhereInput) {
+query ClubCategories($where: NameWhereInput) {
   clubCategories(where: $where) {
     id
     image

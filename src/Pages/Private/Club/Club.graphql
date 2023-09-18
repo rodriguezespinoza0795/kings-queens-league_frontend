@@ -1,4 +1,4 @@
-query Clubs($where: ClubWhereInput) {
+query Clubs($where: NameWhereInput) {
   clubs(where: $where) {
     id
     name
