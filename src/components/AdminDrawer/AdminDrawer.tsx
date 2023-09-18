@@ -10,7 +10,13 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Category, Groups, Radar } from '@mui/icons-material';
+import {
+  Category,
+  AddModerator,
+  Radar,
+  Groups3,
+  GroupAdd,
+} from '@mui/icons-material';
 import { routesPath } from './AdminDrawer.utils';
 
 const TemporaryDrawer = () => {
@@ -33,10 +39,14 @@ const TemporaryDrawer = () => {
     switch (name) {
       case 'CategoryIcon':
         return <Category />;
-      case 'GroupsIcon':
-        return <Groups />;
+      case 'AddModeratorIcon':
+        return <AddModerator />;
       case 'RadarIcon':
         return <Radar />;
+      case 'Groups3Icon':
+        return <Groups3 />;
+      case 'GroupAddIcon':
+        return <GroupAdd />;
     }
   };
 

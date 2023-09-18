@@ -1,0 +1,62 @@
+query PlayersCatalogues($where: NameWhereInput) {
+  playerTypes(where: $where) {
+    id
+    name
+  }
+  positions(where: $where) {
+    id
+    name
+  }
+  clubs(where: $where) {
+    id
+    name
+    image
+  }
+}
+
+query Players($where: PlayerWhereInput) {
+  players(where: $where) {
+    id
+    name
+    lastName
+    nickName
+    playerTypeId
+    playerType {
+      id
+      name
+    }
+    positionId
+    position {
+      id
+      name
+    }
+    clubId
+    club {
+      id
+      name
+      image
+    }
+    image
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation CreatePlayer($data: PlayerInput!) {
+  createPlayer(data: $data) {
+    id
+  }
+}
+
+mutation UpdatePlayer($PlayerId: ID!, $data: PlayerInput!) {
+  updatePlayer(id: $PlayerId, data: $data) {
+    id
+  }
+}
+
+mutation DeletePlayer($PlayerId: ID!) {
+  deletePlayer(id: $PlayerId) {
+    id
+  }
+}

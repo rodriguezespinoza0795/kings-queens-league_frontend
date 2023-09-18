@@ -1,0 +1,27 @@
+query PlayerTypes($where: NameWhereInput) {
+  playerTypes(where: $where) {
+    id
+    name
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation CreatePlayerType($data: NameInput!) {
+  createPlayerType(data: $data) {
+    id
+  }
+}
+
+mutation updatePlayerType($PlayerTypeId: ID!, $data: NameInput!) {
+  updatePlayerType(id: $PlayerTypeId, data: $data) {
+    id
+  }
+}
+
+mutation deletePlayerType($PlayerTypeId: ID!) {
+  deletePlayerType(id: $PlayerTypeId) {
+    id
+  }
+}

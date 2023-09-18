@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AdminDrawer } from '@/components';
-import { ClubCategory, Club, Position } from './Pages';
+import { ClubCategory, Club, Position, PlayerType, Player } from './Pages';
 
 export const AppRouter = () => {
   return (
@@ -10,6 +10,8 @@ export const AppRouter = () => {
         <Route path="/club-category" element={<ClubCategory />} />
         <Route path="/club" element={<Club />} />
         <Route path="/position" element={<Position />} />
+        <Route path="/player-type" element={<PlayerType />} />
+        <Route path="/player" element={<Player />} />
       </Route>
     </Routes>
   );
