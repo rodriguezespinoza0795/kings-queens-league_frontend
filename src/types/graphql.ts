@@ -56,6 +56,15 @@ export type ClubInput = {
   name: Scalars['String']['input'];
 };
 
+export type Count = {
+  __typename?: 'Count';
+  count?: Maybe<Scalars['Int']['output']>;
+};
+
+export type IdUpdateWhereInput = {
+  id?: InputMaybe<NumberFilterInput>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createClub: Club;
@@ -63,16 +72,25 @@ export type Mutation = {
   createPlayer: Player;
   createPlayerType: PlayerType;
   createPosition: Club;
+  createTournament: Tournament;
+  createTournamentGroup: Count;
+  createTournamentRound: Count;
   deleteClub: Club;
   deleteClubCategory: ClubCategory;
   deletePlayer: Player;
   deletePlayerType: PlayerType;
   deletePosition: Position;
+  deleteTournament: Tournament;
+  deleteTournamentGroup: TournamentGroup;
+  deleteTournamentRound: TournamentRound;
   updateClub: Club;
   updateClubCategory: ClubCategory;
   updatePlayer: Player;
   updatePlayerType: PlayerType;
   updatePosition: Position;
+  updateTournament: Tournament;
+  updateTournamentGroup: Count;
+  updateTournamentRound: TournamentRound;
 };
 
 
@@ -101,6 +119,21 @@ export type MutationCreatePositionArgs = {
 };
 
 
+export type MutationCreateTournamentArgs = {
+  data: TournamentInput;
+};
+
+
+export type MutationCreateTournamentGroupArgs = {
+  data: Array<InputMaybe<TournamentGroupInput>>;
+};
+
+
+export type MutationCreateTournamentRoundArgs = {
+  data: Array<InputMaybe<TournamentRoundInput>>;
+};
+
+
 export type MutationDeleteClubArgs = {
   id: Scalars['ID']['input'];
 };
@@ -122,6 +155,21 @@ export type MutationDeletePlayerTypeArgs = {
 
 
 export type MutationDeletePositionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTournamentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTournamentGroupArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTournamentRoundArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -152,6 +200,24 @@ export type MutationUpdatePlayerTypeArgs = {
 
 export type MutationUpdatePositionArgs = {
   data: PositionInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTournamentArgs = {
+  data: TournamentInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTournamentGroupArgs = {
+  data: NameInput;
+  where: IdUpdateWhereInput;
+};
+
+
+export type MutationUpdateTournamentRoundArgs = {
+  data: TournamentRoundUpdateInput;
   id: Scalars['ID']['input'];
 };
 
@@ -249,6 +315,12 @@ export type Query = {
   players: Array<Maybe<Player>>;
   position?: Maybe<Position>;
   positions: Array<Maybe<Position>>;
+  tournament?: Maybe<Tournament>;
+  tournamentGroup?: Maybe<TournamentGroup>;
+  tournamentGroups: Array<Maybe<TournamentGroup>>;
+  tournamentRound?: Maybe<TournamentRound>;
+  tournamentRounds: Array<Maybe<TournamentRound>>;
+  tournaments: Array<Maybe<Tournament>>;
 };
 
 
@@ -311,6 +383,42 @@ export type QueryPositionsArgs = {
   where?: InputMaybe<NameWhereInput>;
 };
 
+
+export type QueryTournamentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryTournamentGroupArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryTournamentGroupsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<TournamentGroupWhereInput>;
+};
+
+
+export type QueryTournamentRoundArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryTournamentRoundsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<TournamentRoundWhereInput>;
+};
+
+
+export type QueryTournamentsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<NameWhereInput>;
+};
+
 export type StringFilterInput = {
   contains?: InputMaybe<Scalars['String']['input']>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
@@ -323,6 +431,85 @@ export type StringFilterInput = {
   not?: InputMaybe<Scalars['String']['input']>;
   notIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   startsWith?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Tournament = BaseModel & {
+  __typename?: 'Tournament';
+  clubCategory: ClubCategory;
+  clubCategoryId: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  edition: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  numGroup: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type TournamentGroup = BaseModel & {
+  __typename?: 'TournamentGroup';
+  club: Club;
+  clubId: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  tournament: Tournament;
+  tournamentId: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type TournamentGroupInput = {
+  clubId: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  tournamentId: Scalars['Int']['input'];
+};
+
+export type TournamentGroupWhereInput = {
+  isActive?: InputMaybe<BoolFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  tournamentId?: InputMaybe<NumberFilterInput>;
+};
+
+export type TournamentInput = {
+  clubCategoryId: Scalars['Int']['input'];
+  edition: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  numGroup: Scalars['Int']['input'];
+};
+
+export type TournamentRound = BaseModel & {
+  __typename?: 'TournamentRound';
+  clubAway: Club;
+  clubHome: Club;
+  clubIdAway: Scalars['Int']['output'];
+  clubIdHome: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Int']['output'];
+  tournament: Tournament;
+  tournamentId: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type TournamentRoundInput = {
+  clubIdAway: Scalars['Int']['input'];
+  clubIdHome: Scalars['Int']['input'];
+  round: Scalars['Int']['input'];
+  tournamentId: Scalars['Int']['input'];
+};
+
+export type TournamentRoundUpdateInput = {
+  clubIdAway: Scalars['Int']['input'];
+  clubIdHome: Scalars['Int']['input'];
+};
+
+export type TournamentRoundWhereInput = {
+  cliendIdAway?: InputMaybe<NumberFilterInput>;
+  cliendIdHome?: InputMaybe<NumberFilterInput>;
+  isActive?: InputMaybe<BoolFilterInput>;
+  round?: InputMaybe<NumberFilterInput>;
+  tournamentId?: InputMaybe<NumberFilterInput>;
 };
 
 export type BoolFilterInput = {
@@ -481,6 +668,35 @@ export type DeletePositionMutationVariables = Exact<{
 
 export type DeletePositionMutation = { __typename?: 'Mutation', deletePosition: { __typename?: 'Position', id: string } };
 
+export type TournamentsQueryVariables = Exact<{
+  where?: InputMaybe<NameWhereInput>;
+}>;
+
+
+export type TournamentsQuery = { __typename?: 'Query', tournaments: Array<{ __typename?: 'Tournament', id: string, name: string, edition: number, clubCategoryId: number, numGroup: number, createdAt: any, updatedAt?: any | null, isActive: number, clubCategory: { __typename?: 'ClubCategory', id: string, name: string, image: string } } | null> };
+
+export type CreateTournamentMutationVariables = Exact<{
+  data: TournamentInput;
+}>;
+
+
+export type CreateTournamentMutation = { __typename?: 'Mutation', createTournament: { __typename?: 'Tournament', id: string } };
+
+export type UpdateTournamentMutationVariables = Exact<{
+  tournamentId: Scalars['ID']['input'];
+  data: TournamentInput;
+}>;
+
+
+export type UpdateTournamentMutation = { __typename?: 'Mutation', updateTournament: { __typename?: 'Tournament', id: string } };
+
+export type DeleteTournamentMutationVariables = Exact<{
+  tournamentId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteTournamentMutation = { __typename?: 'Mutation', deleteTournament: { __typename?: 'Tournament', id: string } };
+
 
 export const ClubsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Clubs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clubs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategoryId"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<ClubsQuery, ClubsQueryVariables>;
 export const CreateClubDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateClub"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createClub"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateClubMutation, CreateClubMutationVariables>;
@@ -503,3 +719,7 @@ export const PositionsDocument = {"kind":"Document","definitions":[{"kind":"Oper
 export const CreatePositionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePosition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PositionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPosition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreatePositionMutation, CreatePositionMutationVariables>;
 export const UpdatePositionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePosition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"PositionId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PositionInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePosition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"PositionId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdatePositionMutation, UpdatePositionMutationVariables>;
 export const DeletePositionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeletePosition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"PositionId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deletePosition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"PositionId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeletePositionMutation, DeletePositionMutationVariables>;
+export const TournamentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Tournaments"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tournaments"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"edition"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategoryId"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"numGroup"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<TournamentsQuery, TournamentsQueryVariables>;
+export const CreateTournamentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateTournament"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TournamentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTournament"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTournamentMutation, CreateTournamentMutationVariables>;
+export const UpdateTournamentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateTournament"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tournamentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TournamentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateTournament"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tournamentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateTournamentMutation, UpdateTournamentMutationVariables>;
+export const DeleteTournamentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteTournament"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tournamentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTournament"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tournamentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteTournamentMutation, DeleteTournamentMutationVariables>;

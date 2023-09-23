@@ -28,5 +28,11 @@ export const routesPath = [
     label: 'Jugador',
     route: 'player',
     icon: 'GroupAddIcon'
+  },
+  {
+    key: 'tournament',
+    label: 'Torneos',
+    route: 'tournament',
+    icon: 'EmojiEventsIcon'
   }
 ]

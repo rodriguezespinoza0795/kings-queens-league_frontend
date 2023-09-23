@@ -16,6 +16,7 @@ import {
   Radar,
   Groups3,
   GroupAdd,
+  EmojiEvents,
 } from '@mui/icons-material';
 import { routesPath } from './AdminDrawer.utils';
 
@@ -47,6 +48,8 @@ const TemporaryDrawer = () => {
         return <Groups3 />;
       case 'GroupAddIcon':
         return <GroupAdd />;
+      case 'EmojiEventsIcon':
+        return <EmojiEvents />;
     }
   };
 

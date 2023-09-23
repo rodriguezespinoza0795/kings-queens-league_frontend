@@ -1,0 +1,35 @@
+query Tournaments($where: NameWhereInput) {
+  tournaments(where: $where) {
+    id
+    name
+    edition
+    clubCategoryId
+    clubCategory {
+      id
+      name
+      image
+    }
+    numGroup
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation CreateTournament($data: TournamentInput!) {
+  createTournament(data: $data) {
+    id
+  }
+}
+
+mutation UpdateTournament($tournamentId: ID!, $data: TournamentInput!) {
+  updateTournament(id: $tournamentId, data: $data) {
+    id
+  }
+}
+
+mutation DeleteTournament($tournamentId: ID!) {
+  deleteTournament(id: $tournamentId) {
+    id
+  }
+}

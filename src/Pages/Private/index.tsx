@@ -3,3 +3,4 @@ export * from './Club';
 export * from './Position';
 export * from './PlayerType';
 export * from './Player';
+export * from './Tournament';
