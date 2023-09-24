@@ -1,4 +1,7 @@
-query PlayersCatalogues($where: NameWhereInput) {
+query PlayersCatalogues(
+  $where: NameWhereInput
+  $ClubWhereInput: ClubWhereInput
+) {
   playerTypes(where: $where) {
     id
     name
@@ -7,7 +10,7 @@ query PlayersCatalogues($where: NameWhereInput) {
     id
     name
   }
-  clubs(where: $where) {
+  clubs(where: $ClubWhereInput) {
     id
     name
     image

@@ -10,8 +10,10 @@ import {
   ClubCategoriesDocument,
   TournamentInput,
 } from '@/types';
+import { useNavigate } from 'react-router-dom';
 
 export const useTournament = () => {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<unknown[]>([]);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -136,6 +138,10 @@ export const useTournament = () => {
     { key: 'actions', name: 'Acciones', type: 'actions' },
   ];
 
+  const seeDetails = (id: number) => {
+    navigate(`/tournament/${id}`)
+  }
+
   return {
     headers,
     rows,
@@ -153,5 +159,6 @@ export const useTournament = () => {
     openDelete,
     defaultValues,
     catalogues,
+    seeDetails
   };
 };

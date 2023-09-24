@@ -21,7 +21,9 @@ const Tournament = () => {
     handleCloseDelete,
     openDelete,
     catalogues,
+    seeDetails,
   } = useTournament();
+
   return (
     <>
       <Dialog handleClose={handleClose} open={open} title="Crear nuevo torneo">
@@ -62,11 +64,15 @@ const Tournament = () => {
       <Button variant="contained" onClick={handleClickOpen}>
         Crear Nuevo Torneo
       </Button>
+      <Button variant="contained" onClick={() => seeDetails(1)}>
+        Detalles del torneo
+      </Button>
       <Table
         headers={headers}
         rows={rows}
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
+        detailsItem={seeDetails}
       />
     </>
   );

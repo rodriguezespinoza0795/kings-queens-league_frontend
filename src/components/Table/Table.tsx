@@ -11,7 +11,13 @@ import {
   TablePagination,
 } from '@mui/material';
 import format from 'date-fns/format';
-import { CheckCircle, Cancel, Delete, Edit } from '@mui/icons-material';
+import {
+  CheckCircle,
+  Cancel,
+  Delete,
+  Edit,
+  Settings,
+} from '@mui/icons-material';
 import { BasicTableProps } from './table.types';
 import { get } from 'lodash';
 import { useTable } from './useTable';
@@ -21,6 +27,7 @@ export default function BasicTable({
   rows,
   deleteItem,
   updateItem,
+  detailsItem,
 }: BasicTableProps) {
   const {
     paginate,
@@ -75,6 +82,15 @@ export default function BasicTable({
                   case 'actions':
                     return (
                       <TableCell key={column.key}>
+                        {detailsItem && (
+                          <IconButton
+                            aria-label="edit"
+                            size="small"
+                            onClick={() => detailsItem(row.id)}
+                          >
+                            <Settings fontSize="inherit" />
+                          </IconButton>
+                        )}
                         <IconButton
                           aria-label="edit"
                           size="small"

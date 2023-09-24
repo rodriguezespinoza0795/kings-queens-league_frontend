@@ -1,0 +1,35 @@
+query Tournament($tournamentId: ID!) {
+  tournament(id: $tournamentId) {
+    id
+    name
+    edition
+    clubCategoryId
+    clubCategory {
+      id
+      name
+      image
+    }
+    numGroup
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+query TournamentGroups($where: TournamentGroupWhereInput) {
+  tournamentGroups(where: $where) {
+    id
+    name
+    tournamentId
+    clubId
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation CreateTournamentGroup($data: [TournamentGroupInput]!) {
+  createTournamentGroup(data: $data) {
+    count
+  }
+}

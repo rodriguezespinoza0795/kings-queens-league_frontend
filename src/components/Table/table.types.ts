@@ -3,4 +3,5 @@ export type BasicTableProps = {
   rows: any[];
   deleteItem: (data: any) => void;
   updateItem: (data: any) => void;
+  detailsItem?: (id: number) => void;
 };

@@ -7,6 +7,7 @@ import {
   PlayerType,
   Player,
   Tournament,
+  TournamentAdmin,
 } from './Pages';
 
 export const AppRouter = () => {
@@ -20,6 +21,7 @@ export const AppRouter = () => {
         <Route path="/player-type" element={<PlayerType />} />
         <Route path="/player" element={<Player />} />
         <Route path="/tournament" element={<Tournament />} />
+        <Route path="/tournament/:id" element={<TournamentAdmin />} />
       </Route>
     </Routes>
   );

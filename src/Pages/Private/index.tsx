@@ -4,3 +4,4 @@ export * from './Position';
 export * from './PlayerType';
 export * from './Player';
 export * from './Tournament';
+export * from './TournamentAdmin';
