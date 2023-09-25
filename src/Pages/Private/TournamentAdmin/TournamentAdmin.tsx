@@ -1,47 +1,99 @@
-import { Box, Paper, Typography, Avatar } from '@mui/material';
+import { useState } from 'react';
+import { Box, Tabs, Tab } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTournamentAdmin } from './hooks';
 import { TransferList } from '@/components';
+import { TournamentDetails, TournamentRoundsDetails } from './components';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ display: 'grid', gap: '20px' }}>{children}</Box>
+      )}
+    </div>
+  );
+}
 
 const TournamentAdmin = () => {
   const { id } = useParams();
-  const { tournamentData, clubsData, tournamentGroupData } = useTournamentAdmin(
-    id || '',
-  );
+  const [value, setValue] = useState(1);
+  const {
+    tournamentData,
+    clubsData,
+    tournamentGroupData,
+    tournamentRoundsData,
+    handleCreate,
+  } = useTournamentAdmin(id || '');
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
     <Box sx={{ display: 'grid', padding: '10px', gap: '20px' }}>
-      {!!tournamentData && (
-        <Paper
-          elevation={3}
+      <TournamentDetails data={tournamentData} />
+      <Box sx={{ width: '100%' }}>
+        <Box
           sx={{
             display: 'flex',
-            padding: '10px',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            gap: '20px',
+            borderBottom: 1,
+            borderColor: 'divider',
+            justifyContent: 'center',
+            marginBottom: '20px',
           }}
         >
-          <Typography align="center" variant="h6">
-            {tournamentData.name} Edición: {tournamentData.edition}
-          </Typography>
-          <Avatar
-            alt="Remy Sharp"
-            src={tournamentData.clubCategory.image}
-            sx={{ width: 50, height: 50 }}
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Grupos" {...a11yProps(0)} />
+            <Tab label="Jornadas" {...a11yProps(1)} />
+            <Tab label="Calificaciones" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={value} index={0}>
+          {tournamentGroupData && (
+            <TransferList
+              dataList={clubsData as any}
+              defaultValues={tournamentGroupData}
+              catalogue={clubsData as unknown[]}
+            />
+          )}
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <TournamentRoundsDetails
+            data={tournamentRoundsData}
+            catalogue={clubsData}
+            tournamentData={tournamentData}
+            handleCreate={handleCreate}
           />
-          <Typography align="center">
-            Número de grupos: {tournamentData.numGroup}
-          </Typography>
-        </Paper>
-      )}
-      {tournamentGroupData && (
-        <TransferList
-          dataList={clubsData as any}
-          defaultValues={tournamentGroupData}
-          catalogue={clubsData as unknown[]}
-        />
-      )}
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          Item Three
+        </CustomTabPanel>
+      </Box>
     </Box>
   );
 };

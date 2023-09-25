@@ -16,6 +16,29 @@ query Tournament($tournamentId: ID!) {
   }
 }
 
+query TournamentRounds($where: TournamentRoundWhereInput) {
+  tournamentRounds(where: $where) {
+    id
+    tournamentId
+    clubIdHome
+    clubHome {
+      id
+      name
+      image
+    }
+    clubIdAway
+    clubAway {
+      id
+      name
+      image
+    }
+    round
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
 query TournamentGroups($where: TournamentGroupWhereInput) {
   tournamentGroups(where: $where) {
     id
@@ -30,6 +53,12 @@ query TournamentGroups($where: TournamentGroupWhereInput) {
 
 mutation CreateTournamentGroup($data: [TournamentGroupInput]!) {
   createTournamentGroup(data: $data) {
+    count
+  }
+}
+
+mutation CreateTournamentRound($data: [TournamentRoundInput]!) {
+  createTournamentRound(data: $data) {
     count
   }
 }

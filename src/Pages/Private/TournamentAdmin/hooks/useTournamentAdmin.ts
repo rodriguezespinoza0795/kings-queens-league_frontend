@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   TournamentDocument,
   ClubsDocument,
@@ -7,6 +7,9 @@ import {
   Club,
   TournamentGroupsDocument,
   TournamentGroup,
+  TournamentRoundsDocument,
+  TournamentRound,
+  CreateTournamentRoundDocument
 } from '@/types';
 import { useState } from 'react';
 
@@ -14,6 +17,12 @@ export const useTournamentAdmin = (Id: string) => {
   const [tournamentData, setTourmentData] = useState<Tournament>()
   const [clubsData, setClubstData] = useState<Club[]>()
   const [tournamentGroupData, setTournamentGroupData] = useState<number[][]>()
+  const [tournamentRoundsData, setTournamentRoundsData] = useState<TournamentRound[]>()
+
+  const [fetch] = useMutation(CreateTournamentRoundDocument, {
+    onCompleted: () => refetchData(),
+    onError: (error) => console.log('errors', error),
+  });
 
   const [getTournamentData] = useLazyQuery(TournamentDocument, {
     onCompleted: ({ tournament }) => getCompleteData(tournament as Tournament),
@@ -29,6 +38,18 @@ export const useTournamentAdmin = (Id: string) => {
     onCompleted: ({ tournamentGroups }) => setTournamentGroupData(getGroups(tournamentGroups as TournamentGroup[])),
     onError: (error) => console.log('errors', error),
   });
+
+  const [getClubRoundsData, { refetch }] = useLazyQuery(TournamentRoundsDocument, {
+    onCompleted: ({ tournamentRounds }) => setTournamentRoundsData(tournamentRounds as TournamentRound[]),
+    onError: (error) => console.log('errors', error),
+  });
+
+  const refetchData = async () => {
+    const {
+      data: { tournamentRounds },
+    } = await refetch();
+    setTournamentRoundsData(tournamentRounds as TournamentRound[]);
+  };
 
   const getCompleteData = async (tournament: Tournament) => {
     setTourmentData(tournament)
@@ -47,12 +68,27 @@ export const useTournamentAdmin = (Id: string) => {
     await getClubGroupData({
       variables: {
         where: {
+          isActive: {
+            equals: true
+          },
           tournamentId: {
             equals: parseInt(Id, 10)
           }
         }
       },
     });
+    await getClubRoundsData({
+      variables: {
+        where: {
+          isActive: {
+            equals: true
+          },
+          tournamentId: {
+            equals: parseInt(Id, 10)
+          }
+        }
+      },
+    })
   }
 
   const getGroups = (data: TournamentGroup[]) => {
@@ -64,6 +100,14 @@ export const useTournamentAdmin = (Id: string) => {
         ?.filter((item) => item.name === 'B')
         .map((item) => item.clubId)]
 
+  }
+
+  const handleCreate = async (data: any) => {
+    fetch({
+      variables: {
+        data: data,
+      },
+    });
   }
 
   useEffect(() => {
@@ -78,6 +122,7 @@ export const useTournamentAdmin = (Id: string) => {
     tournamentData,
     clubsData,
     tournamentGroupData,
-    getGroups,
+    tournamentRoundsData,
+    handleCreate
   };
 };
