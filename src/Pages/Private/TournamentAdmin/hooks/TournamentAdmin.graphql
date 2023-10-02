@@ -51,6 +51,14 @@ query TournamentGroups($where: TournamentGroupWhereInput) {
   }
 }
 
+query PlayerRounds($where: PlayerRoundWhereInput) {
+  playerRounds(where: $where) {
+    playerId
+    score
+    roundId
+  }
+}
+
 mutation CreateTournamentGroup($data: [TournamentGroupInput]!) {
   createTournamentGroup(data: $data) {
     count
@@ -59,6 +67,12 @@ mutation CreateTournamentGroup($data: [TournamentGroupInput]!) {
 
 mutation CreateTournamentRound($data: [TournamentRoundInput]!) {
   createTournamentRound(data: $data) {
+    count
+  }
+}
+
+mutation CreatePlayerRound($data: [PlayerRoundInput]!) {
+  createPlayerRound(data: $data) {
     count
   }
 }

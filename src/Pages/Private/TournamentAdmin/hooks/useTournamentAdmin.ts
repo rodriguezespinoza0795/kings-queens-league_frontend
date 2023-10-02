@@ -9,7 +9,9 @@ import {
   TournamentGroup,
   TournamentRoundsDocument,
   TournamentRound,
-  CreateTournamentRoundDocument
+  CreateTournamentRoundDocument,
+  PlayersDocument,
+  Player
 } from '@/types';
 import { useState } from 'react';
 
@@ -18,6 +20,7 @@ export const useTournamentAdmin = (Id: string) => {
   const [clubsData, setClubstData] = useState<Club[]>()
   const [tournamentGroupData, setTournamentGroupData] = useState<number[][]>()
   const [tournamentRoundsData, setTournamentRoundsData] = useState<TournamentRound[]>()
+  const [players, setPlayers] = useState<Player[]>()
 
   const [fetch] = useMutation(CreateTournamentRoundDocument, {
     onCompleted: () => refetchData(),
@@ -36,6 +39,11 @@ export const useTournamentAdmin = (Id: string) => {
 
   const [getClubGroupData] = useLazyQuery(TournamentGroupsDocument, {
     onCompleted: ({ tournamentGroups }) => setTournamentGroupData(getGroups(tournamentGroups as TournamentGroup[])),
+    onError: (error) => console.log('errors', error),
+  });
+
+  const [getPlayersData] = useLazyQuery(PlayersDocument, {
+    onCompleted: ({ players }) => setPlayers(players as Player[]),
     onError: (error) => console.log('errors', error),
   });
 
@@ -89,6 +97,15 @@ export const useTournamentAdmin = (Id: string) => {
         }
       },
     })
+    await getPlayersData({
+      variables: {
+        where: {
+          isActive: {
+            equals: true
+          },
+        }
+      },
+    })
   }
 
   const getGroups = (data: TournamentGroup[]) => {
@@ -121,6 +138,7 @@ export const useTournamentAdmin = (Id: string) => {
   return {
     tournamentData,
     clubsData,
+    players,
     tournamentGroupData,
     tournamentRoundsData,
     handleCreate

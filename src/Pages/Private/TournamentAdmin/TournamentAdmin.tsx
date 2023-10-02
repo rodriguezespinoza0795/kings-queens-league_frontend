@@ -3,7 +3,11 @@ import { Box, Tabs, Tab } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTournamentAdmin } from './hooks';
 import { TransferList } from '@/components';
-import { TournamentDetails, TournamentRoundsDetails } from './components';
+import {
+  TournamentDetails,
+  TournamentRoundsDetails,
+  TournamentPlayerRounds,
+} from './components';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,13 +41,14 @@ function CustomTabPanel(props: TabPanelProps) {
 
 const TournamentAdmin = () => {
   const { id } = useParams();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(2);
   const {
     tournamentData,
     clubsData,
     tournamentGroupData,
     tournamentRoundsData,
     handleCreate,
+    players,
   } = useTournamentAdmin(id || '');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -91,7 +96,10 @@ const TournamentAdmin = () => {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <TournamentPlayerRounds
+            data={tournamentRoundsData}
+            players={players}
+          />
         </CustomTabPanel>
       </Box>
     </Box>
