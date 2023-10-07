@@ -9,7 +9,7 @@ export type DataValues = {
     clubId: number,
 }
 
-export type catalogueType = { clubs: any[], positions: any[], playerTypes: any[] }
+export type catalogueType = { clubs: any[], positions: any[], playerTypes: any[], clubCategories: any[] }
 
 export type PlayerFormProps = {
     handleClose: () => void

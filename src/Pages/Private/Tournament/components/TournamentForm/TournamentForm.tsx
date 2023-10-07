@@ -8,7 +8,6 @@ import {
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { TournamentFormProps } from './TournamentForm.types';
 import { DialogActions } from '@/components';
-import { TournamentInput } from '@/types';
 
 const ClubForm = ({
   handleClose,
@@ -22,7 +21,12 @@ const ClubForm = ({
     watch,
     formState: { errors },
     setValue,
-  } = useForm<TournamentInput>({
+  } = useForm<{
+    clubCategoryId: number;
+    edition: string;
+    name: string;
+    numGroup: string;
+  }>({
     defaultValues: {
       name: defaultValues?.name,
       numGroup: defaultValues?.numGroup,
@@ -31,7 +35,12 @@ const ClubForm = ({
     },
   });
 
-  const onSubmit: SubmitHandler<TournamentInput> = async (data) => {
+  const onSubmit: SubmitHandler<{
+    clubCategoryId: number;
+    edition: string;
+    name: string;
+    numGroup: string;
+  }> = async (data) => {
     handleFunction(data);
     handleClose();
   };

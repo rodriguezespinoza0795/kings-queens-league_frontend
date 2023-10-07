@@ -14,6 +14,12 @@ query PlayersCatalogues(
     id
     name
     image
+    clubCategoryId
+  }
+  clubCategories(where: $where) {
+    id
+    image
+    name
   }
 }
 

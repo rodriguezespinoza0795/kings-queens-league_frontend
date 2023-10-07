@@ -4,11 +4,9 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   TournamentsDocument,
   CreateTournamentDocument,
-  Tournament,
   DeleteTournamentDocument,
   UpdateTournamentDocument,
   ClubCategoriesDocument,
-  TournamentInput,
 } from '@/types';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,9 +19,9 @@ export const useTournament = () => {
   const [defaultValues, setDefaultValues] = useState({
     id: '',
     name: '',
-    edition: 0,
+    edition: '0',
     clubCategoryId: 1,
-    numGroup: 1
+    numGroup: '1'
   });
   const [catalogues, setCatalogues] = useState<{ clubCategory: any[] }>({ clubCategory: [] });
 
@@ -48,13 +46,13 @@ export const useTournament = () => {
   const handleClickOpen = () => setOpen(true);
   const handleClose: HandleClose = () => setOpen(false);
 
-  const handleClickOpenUpdate = (data: Tournament) => {
+  const handleClickOpenUpdate = (data: any) => {
     setOpenUpdate(true);
     setDefaultValues(data);
   };
   const handleCloseUpdate: HandleClose = () => setOpenUpdate(false);
 
-  const handleClickOpenDelete = (data: Tournament) => {
+  const handleClickOpenDelete = (data: any) => {
     setOpenDelete(true);
     setDefaultValues(data);
   };
@@ -110,26 +108,36 @@ export const useTournament = () => {
     });
   };
 
-  const handleCreate = async (data: TournamentInput) => {
+  const handleCreate = async (data: { clubCategoryId: number, edition: string, name: string, numGroup: string }) => {
     fetch({
       variables: {
-        data: data,
+        data: {
+          clubCategoryId: data.clubCategoryId,
+          edition: parseInt(data.edition, 10),
+          name: data.name,
+          numGroup: parseInt(data.numGroup, 10),
+        }
       },
     });
   }
 
-  const handleUpdate = async (data: TournamentInput) => {
+  const handleUpdate = async (data: { clubCategoryId: number, edition: string, name: string, numGroup: string }) => {
     fetchUpdate({
       variables: {
         tournamentId: defaultValues.id,
-        data: data,
+        data: {
+          clubCategoryId: data.clubCategoryId,
+          edition: parseInt(data.edition, 10),
+          name: data.name,
+          numGroup: parseInt(data.numGroup, 10),
+        }
       },
     });
   };
 
   const headers = [
     { key: 'id', name: 'ID', type: 'text' },
-    { key: 'edition', name: 'text', type: 'text' },
+    { key: 'edition', name: 'Edición', type: 'text' },
     { key: 'name', name: 'Nombre', type: 'text' },
     { key: 'clubCategory.image', name: 'Categoría', type: 'image' },
     { key: 'createdAt', name: 'Fecha de Creación', type: 'date' },

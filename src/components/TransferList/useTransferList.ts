@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { CreateTournamentGroupDocument } from '@/types';
+import { CreateTournamentGroupDocument, Tournament } from '@/types';
 
-export const useTransferList = (defaultValue: number[][], catalogue: any[]) => {
+export const useTransferList = (defaultValue: number[][], catalogue: any[], tournamentData: Tournament) => {
   const [checked, setChecked] = useState<readonly number[]>([]);
-  const leftData = defaultValue[0].length === 0 ? catalogue.map(item => item.id) : defaultValue[0]
+  const leftData = defaultValue[0].length === 0 ? catalogue.map(item => parseInt(item.id, 10)) : defaultValue[0]
   const [left, setLeft] = useState<readonly number[]>(leftData);
   const [right, setRight] = useState<readonly number[]>(defaultValue[1]);
 
@@ -52,14 +52,14 @@ export const useTransferList = (defaultValue: number[][], catalogue: any[]) => {
   const handleCreate = () => {
     const leftData = left.map(item => {
       return {
-        tournamentId: 1,
+        tournamentId: parseInt(tournamentData.id, 10),
         name: "A",
         clubId: item
       }
     })
     const rightData = right.map(item => {
       return {
-        tournamentId: 1,
+        tournamentId: parseInt(tournamentData.id, 10),
         name: "B",
         clubId: item
       }

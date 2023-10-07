@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   TextField,
@@ -54,6 +55,8 @@ const PlayerForm = ({
     handleFunction(data);
     handleClose();
   };
+
+  const [category, setCategory] = useState(0);
 
   return (
     <>
@@ -127,10 +130,28 @@ const PlayerForm = ({
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
+        <ToggleButtonGroup
+          color="primary"
+          exclusive
+          aria-label="Platform"
+          value={category.toString()}
+        >
+          {catalogues.clubCategories.map((item) => (
+            <ToggleButton
+              value={item.id}
+              key={item.id}
+              onClick={() => setCategory(parseInt(item.id, 10))}
+            >
+              <Avatar alt="Remy Sharp" src={item.image} />
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
         <Autocomplete
           id="country-select-demo"
           sx={{ width: 300 }}
-          options={catalogues.clubs}
+          options={catalogues.clubs.filter(
+            (item) => item.clubCategoryId === category,
+          )}
           autoHighlight
           defaultValue={catalogues.clubs.find(
             (item) => watch('clubId').toString() === item.id,

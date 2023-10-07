@@ -1,12 +1,15 @@
 import { Grid, Button } from '@mui/material';
 import { useTransferList } from './useTransferList';
 import { customList } from './customList';
+import { Tournament } from '@/types';
 
 export default function TransferList({
+  tournamentData,
   dataList,
   defaultValues,
   catalogue,
 }: {
+  tournamentData: Tournament;
   dataList: any[];
   defaultValues: number[][];
   catalogue: unknown[];
@@ -21,7 +24,7 @@ export default function TransferList({
     rightChecked,
     right,
     handleCreate,
-  } = useTransferList(defaultValues, catalogue);
+  } = useTransferList(defaultValues, catalogue, tournamentData);
 
   return (
     <>

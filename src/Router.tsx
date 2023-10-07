@@ -8,13 +8,14 @@ import {
   Player,
   Tournament,
   TournamentAdmin,
+  TopPlayers,
 } from './Pages';
 
 export const AppRouter = () => {
   return (
     <Routes>
+      <Route path="/" element={<TopPlayers />} />
       <Route path="/" element={<AdminDrawer />}>
-        <Route path="/" element={<ClubCategory />} />
         <Route path="/club-category" element={<ClubCategory />} />
         <Route path="/club" element={<Club />} />
         <Route path="/position" element={<Position />} />

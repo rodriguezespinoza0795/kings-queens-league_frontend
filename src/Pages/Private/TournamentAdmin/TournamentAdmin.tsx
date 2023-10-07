@@ -79,8 +79,9 @@ const TournamentAdmin = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          {tournamentGroupData && (
+          {tournamentGroupData && tournamentData && (
             <TransferList
+              tournamentData={tournamentData}
               dataList={clubsData as any}
               defaultValues={tournamentGroupData}
               catalogue={clubsData as unknown[]}

@@ -191,6 +191,7 @@ const TournamentPlayerRounds = ({
             >
               {players
                 ?.filter((team) => team.clubId === matchData?.clubIdHome)
+                ?.sort((a, b) => a.positionId - b.positionId)
                 ?.map((player) => (
                   <Box
                     sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
@@ -264,6 +265,7 @@ const TournamentPlayerRounds = ({
             >
               {players
                 ?.filter((team) => team.clubId === matchData?.clubIdAway)
+                ?.sort((a, b) => a.positionId - b.positionId)
                 ?.map((player) => (
                   <Box
                     sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}

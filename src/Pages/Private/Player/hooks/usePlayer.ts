@@ -29,7 +29,8 @@ export const usePlayer = () => {
     {
       clubs: [],
       positions: [],
-      playerTypes: []
+      playerTypes: [],
+      clubCategories: []
     }
   );
 

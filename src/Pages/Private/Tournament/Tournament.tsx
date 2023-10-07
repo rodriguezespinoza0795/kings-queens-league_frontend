@@ -32,8 +32,8 @@ const Tournament = () => {
           handleFunction={handleCreate}
           defaultValues={{
             name: '',
-            numGroup: 0,
-            edition: 0,
+            numGroup: '0',
+            edition: '0',
             clubCategoryId: 1,
           }}
           catalogues={catalogues}
@@ -63,9 +63,6 @@ const Tournament = () => {
       </Dialog>
       <Button variant="contained" onClick={handleClickOpen}>
         Crear Nuevo Torneo
-      </Button>
-      <Button variant="contained" onClick={() => seeDetails(1)}>
-        Detalles del torneo
       </Button>
       <Table
         headers={headers}

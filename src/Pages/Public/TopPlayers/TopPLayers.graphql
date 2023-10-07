@@ -1,0 +1,30 @@
+query TopPlayersCatalogues(
+  $where: PlayerRoundWhereInput
+  $whereCategory: NameWhereInput
+) {
+  playerRounds(where: $where) {
+    score
+    roundId
+    playerId
+    player {
+      id
+      name
+      image
+      lastName
+      positionId
+      playerTypeId
+      clubId
+      club {
+        id
+        name
+        image
+        clubCategoryId
+      }
+    }
+  }
+  clubCategories(where: $whereCategory) {
+    id
+    name
+    image
+  }
+}
