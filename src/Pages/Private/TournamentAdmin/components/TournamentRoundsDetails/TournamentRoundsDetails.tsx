@@ -38,17 +38,15 @@ const TournamentRoundsDetails = ({
 
   const rounds = [...new Set(data?.map((item) => item.round))];
 
-  const onSubmit = (data: any) => {
-    const parsedData = [...Array((catalogue?.length || 0) / 2).keys()].map(
-      (item) => {
-        return {
-          tournamentId: parseInt(tournamentData?.id || '0', 10),
-          clubIdHome: parseInt(get(data, `home${item}`, '0'), 10),
-          clubIdAway: parseInt(get(data, `away${item}`, '0'), 10),
-          round: parseInt(data.round, 10),
-        };
-      },
-    );
+  const onSubmit = (data: any, matches: number) => {
+    const parsedData = [...Array(matches).keys()].map((item) => {
+      return {
+        tournamentId: parseInt(tournamentData?.id || '0', 10),
+        clubIdHome: parseInt(get(data, `home${item}`, '0'), 10),
+        clubIdAway: parseInt(get(data, `away${item}`, '0'), 10),
+        round: parseInt(data.round, 10),
+      };
+    });
     handleCreate(parsedData);
   };
 

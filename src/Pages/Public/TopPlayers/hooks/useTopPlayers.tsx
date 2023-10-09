@@ -1,26 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
+import { TopPlayers } from './useTopPlayers.types';
 import {
   PlayerRound,
   TopPlayersCataloguesDocument,
   ClubCategory,
 } from '@/types';
-
-interface TopPlayers {
-  position: number;
-  playerType: number;
-  handleChangePosition: (
-    _event: React.SyntheticEvent,
-    newValue: number,
-  ) => void;
-  handleChangePlayer: (_event: React.SyntheticEvent, newValue: number) => void;
-  topPlayers: {
-    playerRounds: PlayerRound[];
-    clubCategories: ClubCategory[];
-  };
-  handleFilter: (value: number) => void;
-  filter: number;
-}
 
 export const useTopPlayers = (): TopPlayers => {
   const [topPlayers, setTopPlayers] = useState<{

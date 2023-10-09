@@ -12,6 +12,7 @@ import { TournamentFormProps } from './TournamentForm.types';
 import { DialogActions } from '@/components';
 import { TournamentRoundInput } from '@/types';
 import { get } from 'lodash';
+import { useState } from 'react';
 
 const ClubForm = ({
   handleClose,
@@ -24,8 +25,11 @@ const ClubForm = ({
     formState: { errors },
   } = useForm<any>();
 
+  const defaultMatches = (catalogues?.length || 0) / 2;
+  const [matches, setMatches] = useState(defaultMatches);
+
   const onSubmit: SubmitHandler<TournamentRoundInput> = async (data) => {
-    handleFunction(data);
+    handleFunction(data, matches);
     handleClose();
   };
 
@@ -44,6 +48,16 @@ const ClubForm = ({
       >
         <TextField
           id="name"
+          label="Numero de partidos"
+          variant="outlined"
+          fullWidth
+          value={matches}
+          onChange={(e) =>
+            setMatches(e.target.value === '' ? 0 : parseInt(e.target.value, 10))
+          }
+        />
+        <TextField
+          id="name"
           label="Número de Jornada"
           variant="outlined"
           fullWidth
@@ -51,7 +65,7 @@ const ClubForm = ({
           error={!!errors?.round}
           helperText={errors?.round?.message?.toString()}
         />
-        {[...Array((catalogues?.length || 0) / 2).keys()].map((club) => (
+        {[...Array(matches).keys()].map((club) => (
           <Box
             sx={{
               display: 'grid',

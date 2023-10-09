@@ -1,8 +1,9 @@
 import { AppBar, Accordion } from '@/components';
 import { Typography, Box, Grid, Tabs, Tab, Avatar } from '@mui/material';
-import { useTopPlayers } from './useTopPlayers';
+import { useTopPlayers } from './hooks';
 import { getPlayerByKey, sortData, sumScore } from './TopPlayers.utils';
 import { PlayerRound } from '@/types';
+import { LineChart } from './components';
 
 const TopPlayers = () => {
   const {
@@ -19,6 +20,14 @@ const TopPlayers = () => {
     if (filter === 0) return data;
     return data.filter((item) => item.player?.club.clubCategoryId === filter);
   };
+
+  const positions = [
+    ...new Set(topPlayers.playerRounds.map((item) => item.player.positionId)),
+  ];
+
+  const playerTypes = [
+    ...new Set(topPlayers.playerRounds.map((item) => item.player.playerTypeId)),
+  ];
 
   return (
     <>
@@ -98,50 +107,23 @@ const TopPlayers = () => {
                 <Tab label="MC" />
                 <Tab label="DL" />
               </Tabs>
-              {position === 0 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'positionId',
-                    1,
-                    filter,
-                  )}
-                  category={'PT'}
-                />
-              )}
-              {position === 1 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'positionId',
-                    2,
-                    filter,
-                  )}
-                  category={'DF'}
-                />
-              )}
-              {position === 2 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'positionId',
-                    3,
-                    filter,
-                  )}
-                  category={'MC'}
-                />
-              )}
-              {position === 3 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'positionId',
-                    4,
-                    filter,
-                  )}
-                  category={'DL'}
-                />
-              )}
+              {positions
+                .sort()
+                .map(
+                  (pos) =>
+                    position === pos - 1 && (
+                      <Accordion
+                        key={pos}
+                        data={getPlayerByKey(
+                          topPlayers.playerRounds,
+                          'positionId',
+                          pos,
+                          filter,
+                        )}
+                        category={pos.toString()}
+                      />
+                    ),
+                )}
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -166,53 +148,31 @@ const TopPlayers = () => {
                 <Tab label="12" />
                 <Tab label="13" />
               </Tabs>
-              {playerType === 0 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'playerTypeId',
-                    1,
-                    filter,
-                  )}
-                  category={'DRAFT'}
-                />
-              )}
-              {playerType === 1 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'playerTypeId',
-                    2,
-                    filter,
-                  )}
-                  category={'ONCE'}
-                />
-              )}
-              {playerType === 2 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'playerTypeId',
-                    3,
-                    filter,
-                  )}
-                  category={'DOCE'}
-                />
-              )}
-              {playerType === 3 && (
-                <Accordion
-                  data={getPlayerByKey(
-                    topPlayers.playerRounds,
-                    'playerTypeId',
-                    4,
-                    filter,
-                  )}
-                  category={'TRECE'}
-                />
-              )}
+              {playerTypes
+                .sort()
+                .map(
+                  (pt) =>
+                    playerType === pt - 1 && (
+                      <Accordion
+                        key={pt}
+                        data={getPlayerByKey(
+                          topPlayers.playerRounds,
+                          'playerTypeId',
+                          pt,
+                          filter,
+                        )}
+                        category={pt.toString()}
+                      />
+                    ),
+                )}
             </Box>
           </Grid>
         </Grid>
+        <LineChart
+          dataList={topPlayers.playerRounds.filter(
+            (item) => item.player?.club.clubCategoryId === filter,
+          )}
+        />
       </Box>
     </>
   );

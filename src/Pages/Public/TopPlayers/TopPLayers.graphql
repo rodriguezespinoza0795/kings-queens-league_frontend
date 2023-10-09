@@ -5,6 +5,9 @@ query TopPlayersCatalogues(
   playerRounds(where: $where) {
     score
     roundId
+    round {
+      round
+    }
     playerId
     player {
       id
@@ -18,6 +21,7 @@ query TopPlayersCatalogues(
         id
         name
         image
+        color
         clubCategoryId
       }
     }
