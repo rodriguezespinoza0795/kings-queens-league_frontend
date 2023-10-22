@@ -1,0 +1,5 @@
+mutation signIn($data: UserSignInInput!) {
+  signIn(data: $data) {
+    token
+  }
+}

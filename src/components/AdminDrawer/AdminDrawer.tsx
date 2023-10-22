@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import {
   Box,
   Drawer,
-  Button,
   List,
   ListItem,
   ListItemButton,
@@ -19,22 +17,11 @@ import {
   EmojiEvents,
 } from '@mui/icons-material';
 import { routesPath } from './AdminDrawer.utils';
+import { useGlobal } from '@/context';
 
 const TemporaryDrawer = () => {
+  const { open, toggleDrawer } = useGlobal();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-
-  const toggleDrawer =
-    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-      setOpen(open);
-    };
 
   const getIcon = (name: string) => {
     switch (name) {
@@ -54,8 +41,7 @@ const TemporaryDrawer = () => {
   };
 
   return (
-    <div>
-      <Button onClick={toggleDrawer(true)}>Menú de administrador</Button>
+    <Box sx={{ padding: '20px' }}>
       <Outlet />
       <Drawer anchor={'right'} open={open} onClose={toggleDrawer(false)}>
         <Box
@@ -75,7 +61,7 @@ const TemporaryDrawer = () => {
           </List>
         </Box>
       </Drawer>
-    </div>
+    </Box>
   );
 };
 
