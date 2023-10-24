@@ -147,7 +147,7 @@ export const useTournament = () => {
   ];
 
   const seeDetails = (id: number) => {
-    navigate(`/tournament/${id}`)
+    navigate(`/admin/tournament/${id}`)
   }
 
   return {

@@ -1,5 +1,5 @@
 import { usePosition } from './hooks';
-import Button from '@mui/material/Button';
+import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { PositionForm, DeletePosition } from './components';
 
@@ -22,7 +22,7 @@ const Position = () => {
     openDelete,
   } = usePosition();
   return (
-    <>
+    <Box>
       <Dialog
         handleClose={handleClose}
         open={open}
@@ -64,7 +64,7 @@ const Position = () => {
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />
-    </>
+    </Box>
   );
 };
 

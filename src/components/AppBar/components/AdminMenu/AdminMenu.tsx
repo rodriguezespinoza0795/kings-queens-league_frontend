@@ -8,20 +8,14 @@ import {
   MenuItem,
   Button,
 } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { AdminMenuProps } from './AdminMenu.types';
+import { useNavigate } from 'react-router-dom';
 import { useIsLoggedIn } from '@/hooks';
-import { useGlobal } from '@/context';
+import { useAppBar } from '../../useAppBar';
 
-const AdminMenu = ({
-  handleOpenUserMenu,
-  anchorElUser,
-  handleCloseUserMenu,
-}: AdminMenuProps) => {
+const AdminMenu = () => {
+  const { handleOpenUserMenu, anchorElUser, handleCloseUserMenu } = useAppBar();
   const navigate = useNavigate();
   const { isLoggedIn, handleLogout } = useIsLoggedIn();
-  const { toggleDrawer } = useGlobal();
-  const { pathname } = useLocation();
 
   return (
     <>
@@ -48,22 +42,6 @@ const AdminMenu = ({
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {pathname.split('/')[1] === 'admin' ? (
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={toggleDrawer(true)}>
-                  Admin
-                </Typography>
-              </MenuItem>
-            ) : (
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  textAlign="center"
-                  onClick={() => navigate('/admin/tournament')}
-                >
-                  Admin
-                </Typography>
-              </MenuItem>
-            )}
             <MenuItem onClick={handleCloseUserMenu}>
               <Typography textAlign="center" onClick={handleLogout}>
                 Salir
@@ -73,9 +51,10 @@ const AdminMenu = ({
         </Box>
       ) : (
         <Button
-          variant="outlined"
           sx={{ color: 'white' }}
           onClick={() => navigate('/login')}
+          disableElevation
+          variant="contained"
         >
           Iniciar sesión
         </Button>

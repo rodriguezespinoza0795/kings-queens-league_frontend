@@ -1,5 +1,5 @@
 import { usePlayer } from './hooks';
-import Button from '@mui/material/Button';
+import { Box, Button } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { PlayerForm, DeletePlayer } from './components';
 
@@ -23,7 +23,7 @@ const Player = () => {
     catalogues,
   } = usePlayer();
   return (
-    <>
+    <Box>
       <Dialog handleClose={handleClose} open={open} title="Crear nuevo jugador">
         <PlayerForm
           handleClose={handleClose}
@@ -72,7 +72,7 @@ const Player = () => {
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />
-    </>
+    </Box>
   );
 };
 

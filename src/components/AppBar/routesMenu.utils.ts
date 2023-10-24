@@ -1,38 +1,41 @@
-export const routesPath = [
+export const adminRoutesPath = [
   {
     key: 'clubCategory',
     label: 'Categoría de club',
-    route: 'club-category',
+    route: 'admin/club-category',
     icon: 'CategoryIcon'
   },
   {
     key: 'club',
     label: 'Club',
-    route: 'club',
+    route: 'admin/club',
     icon: 'AddModeratorIcon'
   },
   {
     key: 'position',
     label: 'Posición',
-    route: 'position',
+    route: 'admin/position',
     icon: 'RadarIcon'
   },
   {
     key: 'playerType',
     label: 'Tipo de Jugador',
-    route: 'player-type',
+    route: 'admin/player-type',
     icon: 'Groups3Icon'
   },
   {
     key: 'player',
     label: 'Jugador',
-    route: 'player',
+    route: 'admin/player',
     icon: 'GroupAddIcon'
   },
   {
     key: 'tournament',
     label: 'Torneos',
-    route: 'tournament',
+    route: 'admin/tournament',
     icon: 'EmojiEventsIcon'
   }
 ]
+
+export const publicRoutesPath = [{ name: 'Estadísticas', route: '/' }];
+

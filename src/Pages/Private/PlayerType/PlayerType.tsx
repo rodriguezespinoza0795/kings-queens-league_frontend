@@ -1,5 +1,5 @@
 import { usePlayerType } from './hooks';
-import Button from '@mui/material/Button';
+import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { PlayerTypeForm, DeletePlayerType } from './components';
 
@@ -22,7 +22,7 @@ const PlayerType = () => {
     openDelete,
   } = usePlayerType();
   return (
-    <>
+    <Box>
       <Dialog
         handleClose={handleClose}
         open={open}
@@ -64,7 +64,7 @@ const PlayerType = () => {
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />
-    </>
+    </Box>
   );
 };
 

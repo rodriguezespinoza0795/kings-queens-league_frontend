@@ -1,52 +1,61 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import React from "react";
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import React from 'react';
 
 type ThemeProp = {
-    children: JSX.Element
-}
+  children: JSX.Element;
+};
 
 const theme = createTheme({
-    components:{
-        MuiAvatar: {
-            defaultProps:{
-                imgProps:{
-                    sx:{
-                        objectFit:"contain"
-                    }
-                }
-            },
+  components: {
+    MuiAvatar: {
+      defaultProps: {
+        imgProps: {
+          sx: {
+            objectFit: 'contain',
+          },
         },
-        MuiDialog:{
-            defaultProps:{
-                PaperProps: {
-                    sx:{
-                        minWidth:"400px"
-                    }
-                }
-            }
+      },
+    },
+    MuiDrawer: {
+      defaultProps: {
+        PaperProps: {
+          sx: {
+            minWidth: '200px',
+          },
         },
-        MuiDialogTitle :{
-            defaultProps: {
-                sx:{
-                    alignSelf:"center"
-                }
-            }
+      },
+    },
+    MuiDialog: {
+      defaultProps: {
+        PaperProps: {
+          sx: {
+            minWidth: '400px',
+          },
         },
-        MuiButton:{
-            defaultProps:{
-                sx:{
-                    minWidth:"150px"
-                }
-            }
-        }
-    }
+      },
+    },
+    MuiDialogTitle: {
+      defaultProps: {
+        sx: {
+          alignSelf: 'center',
+        },
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        sx: {
+          minWidth: '150px',
+        },
+      },
+    },
+  },
 });
 
-export const ThemeConfig: React.FC<ThemeProp> = ({children}) => {
-    return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            {children}
-        </ThemeProvider>
-    )
-}
+export const ThemeConfig: React.FC<ThemeProp> = ({ children }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+};

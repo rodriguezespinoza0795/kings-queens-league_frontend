@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { AdminDrawer, AppBar } from '@/components';
+import { AppBar } from '@/components';
 import {
   ClubCategory,
   Club,
@@ -26,7 +26,7 @@ export const AppRouter = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/recovery-password" element={<RecoveryPassword />} />
         {isLoggedIn && (
-          <Route path="/admin" element={<AdminDrawer />}>
+          <>
             <Route path="/admin" element={<Tournament />} />
             <Route path="/admin/tournament" element={<Tournament />} />
             <Route path="/admin/club-category" element={<ClubCategory />} />
@@ -36,7 +36,7 @@ export const AppRouter = () => {
             <Route path="/admin/player" element={<Player />} />
             <Route path="/admin/tournament/:id" element={<TournamentAdmin />} />
             <Route path="/admin/*" element={<Tournament />} />
-          </Route>
+          </>
         )}
         <Route path="*" element={<TopPlayers />} />
       </Route>

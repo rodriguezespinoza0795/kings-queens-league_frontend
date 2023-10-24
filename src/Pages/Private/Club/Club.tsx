@@ -1,5 +1,5 @@
 import { useClub } from './hooks';
-import Button from '@mui/material/Button';
+import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { ClubForm, DeleteClub } from './components';
 
@@ -23,7 +23,7 @@ const Club = () => {
     catalogues,
   } = useClub();
   return (
-    <>
+    <Box>
       <Dialog handleClose={handleClose} open={open} title="Crear nuevo club">
         <ClubForm
           handleClose={handleClose}
@@ -60,7 +60,7 @@ const Club = () => {
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />
-    </>
+    </Box>
   );
 };
 

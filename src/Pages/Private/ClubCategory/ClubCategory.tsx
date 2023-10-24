@@ -1,5 +1,5 @@
 import { useClubCategory } from './hooks';
-import Button from '@mui/material/Button';
+import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { ClubCategoryForm, DeleteClubCategory } from './components';
 
@@ -22,7 +22,7 @@ const ClubCategory = () => {
     openDelete,
   } = useClubCategory();
   return (
-    <>
+    <Box>
       <Dialog
         handleClose={handleClose}
         open={open}
@@ -64,7 +64,7 @@ const ClubCategory = () => {
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />
-    </>
+    </Box>
   );
 };
 
