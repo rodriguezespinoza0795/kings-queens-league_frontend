@@ -41,7 +41,7 @@ function CustomTabPanel(props: TabPanelProps) {
 
 const TournamentAdmin = () => {
   const { id } = useParams();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(0);
   const {
     tournamentData,
     clubsData,
@@ -49,6 +49,7 @@ const TournamentAdmin = () => {
     tournamentRoundsData,
     handleCreate,
     players,
+    clubPresidentsData,
   } = useTournamentAdmin(id || '');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -56,7 +57,14 @@ const TournamentAdmin = () => {
   };
 
   return (
-    <Box sx={{ display: 'grid', padding: '10px', gap: '20px' }}>
+    <Box
+      sx={{
+        display: 'grid',
+        padding: '20px',
+        gap: '20px',
+        gridTemplateRows: 'min-content 1fr',
+      }}
+    >
       <TournamentDetails data={tournamentData} />
       <Box sx={{ width: '100%' }}>
         <Box
@@ -98,8 +106,10 @@ const TournamentAdmin = () => {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <TournamentPlayerRounds
+            tournamentData={tournamentData}
             data={tournamentRoundsData}
             players={players}
+            clubPresidentsData={clubPresidentsData}
           />
         </CustomTabPanel>
       </Box>

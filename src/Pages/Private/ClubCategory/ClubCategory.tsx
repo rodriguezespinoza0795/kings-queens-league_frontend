@@ -22,7 +22,7 @@ const ClubCategory = () => {
     openDelete,
   } = useClubCategory();
   return (
-    <Box>
+    <Box sx={{ padding: '20px' }}>
       <Dialog
         handleClose={handleClose}
         open={open}

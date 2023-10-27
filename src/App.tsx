@@ -4,7 +4,7 @@ import { GlobalProvider } from '@/context';
 function App() {
   return (
     <GlobalProvider>
-      <AppRouter />;
+      <AppRouter />
     </GlobalProvider>
   );
 }

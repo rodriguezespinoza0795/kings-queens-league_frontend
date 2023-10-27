@@ -37,7 +37,7 @@ export default function BasicTable({
     handleChangeRowsPerPage,
   } = useTable();
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ my: '20px' }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>

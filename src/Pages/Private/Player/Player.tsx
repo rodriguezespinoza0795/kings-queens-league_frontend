@@ -23,7 +23,7 @@ const Player = () => {
     catalogues,
   } = usePlayer();
   return (
-    <Box>
+    <Box sx={{ padding: '20px' }}>
       <Dialog handleClose={handleClose} open={open} title="Crear nuevo jugador">
         <PlayerForm
           handleClose={handleClose}

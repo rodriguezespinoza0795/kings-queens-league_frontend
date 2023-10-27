@@ -22,7 +22,7 @@ const PlayerType = () => {
     openDelete,
   } = usePlayerType();
   return (
-    <Box>
+    <Box sx={{ padding: '20px' }}>
       <Dialog
         handleClose={handleClose}
         open={open}

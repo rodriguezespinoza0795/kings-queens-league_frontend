@@ -3,6 +3,7 @@ import { AppBar } from '@/components';
 import {
   ClubCategory,
   Club,
+  ClubPresident,
   Position,
   PlayerType,
   Player,
@@ -31,6 +32,7 @@ export const AppRouter = () => {
             <Route path="/admin/tournament" element={<Tournament />} />
             <Route path="/admin/club-category" element={<ClubCategory />} />
             <Route path="/admin/club" element={<Club />} />
+            <Route path="/admin/club-president" element={<ClubPresident />} />
             <Route path="/admin/position" element={<Position />} />
             <Route path="/admin/player-type" element={<PlayerType />} />
             <Route path="/admin/player" element={<Player />} />

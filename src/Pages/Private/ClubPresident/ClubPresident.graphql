@@ -1,0 +1,35 @@
+query clubPresidents($where: NameWhereInput) {
+  clubPresidents(where: $where) {
+    id
+    name
+    image
+    isActive
+    club {
+      id
+      name
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation createClubPresident($data: ClubPresidentInput!) {
+  createClubPresident(data: $data) {
+    id
+  }
+}
+mutation updateClubPresident(
+  $ClubPresidentId: ID!
+  $data: ClubPresidentInput!
+) {
+  updateClubPresident(id: $ClubPresidentId, data: $data) {
+    id
+  }
+}
+
+mutation deleteClubPresident($ClubPresidentId: ID!) {
+  deleteClubPresident(id: $ClubPresidentId) {
+    id
+    isActive
+  }
+}

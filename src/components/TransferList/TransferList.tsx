@@ -60,13 +60,15 @@ export default function TransferList({
           {customList('Grupo B', right, dataList, handleToggle, checked)}
         </Grid>
       </Grid>
-      <Button
-        variant="contained"
-        onClick={handleCreate}
-        disabled={!!defaultValues[0].length}
-      >
-        Guardar
-      </Button>
+      {tournamentData?.isActive === 1 && (
+        <Button
+          variant="contained"
+          onClick={handleCreate}
+          disabled={!!defaultValues[0].length}
+        >
+          Guardar
+        </Button>
+      )}
     </>
   );
 }

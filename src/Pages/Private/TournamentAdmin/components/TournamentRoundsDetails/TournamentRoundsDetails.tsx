@@ -61,9 +61,11 @@ const TournamentRoundsDetails = ({
           />
         )}
       </Dialog>
-      <Button variant="contained" onClick={handleOpen}>
-        Agregar Jornada
-      </Button>
+      {tournamentData?.isActive === 1 && (
+        <Button variant="contained" onClick={handleOpen}>
+          Agregar Jornada
+        </Button>
+      )}
       {rounds.map((item) => (
         <Accordion
           expanded={expanded === `panel${item}`}

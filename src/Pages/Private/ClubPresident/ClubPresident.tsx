@@ -1,62 +1,59 @@
-import { usePosition } from './hooks';
+import { useClubPresident } from './hooks';
 import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
-import { PositionForm, DeletePosition } from './components';
+import { ClubPresidentForm, DeleteClub } from './components';
 
-const Position = () => {
+const ClubPresident = () => {
   const {
     headers,
     rows,
-    deletePosition,
-    updatePosition,
+    deleteClub,
+    updateClubPresident,
     handleClickOpen,
     handleClose,
     open,
     handleClickOpenUpdate,
     handleCloseUpdate,
     openUpdate,
-    handleCreatePosition,
+    handleCreate,
     defaultValues,
     handleClickOpenDelete,
     handleCloseDelete,
     openDelete,
-  } = usePosition();
+  } = useClubPresident();
   return (
     <Box sx={{ padding: '20px' }}>
       <Dialog
         handleClose={handleClose}
         open={open}
-        title="Crear nueva posición"
+        title="Crear nuevo presidente"
       >
-        <PositionForm
+        <ClubPresidentForm
           handleClose={handleClose}
-          handleFunction={handleCreatePosition}
-          defaultValues={{ id: '', name: '', description: '' }}
+          handleFunction={handleCreate}
+          defaultValues={{ id: '', name: '', image: '' }}
         />
       </Dialog>
       <Dialog
         handleClose={handleCloseUpdate}
         open={openUpdate}
-        title="Modificar posición"
+        title="Modificar categoría"
       >
-        <PositionForm
+        <ClubPresidentForm
           handleClose={handleCloseUpdate}
-          handleFunction={updatePosition}
+          handleFunction={updateClubPresident}
           defaultValues={defaultValues}
         />
       </Dialog>
       <Dialog
         handleClose={handleCloseDelete}
         open={openDelete}
-        title="Eliminar posición"
+        title="Eliminar Presidente"
       >
-        <DeletePosition
-          handleClose={handleCloseDelete}
-          handleDelete={deletePosition}
-        />
+        <DeleteClub handleClose={handleCloseDelete} handleDelete={deleteClub} />
       </Dialog>
       <Button variant="contained" onClick={handleClickOpen}>
-        Crear Nueva Posición
+        Crear Nuevo Presidente
       </Button>
       <Table
         headers={headers}
@@ -68,4 +65,4 @@ const Position = () => {
   );
 };
 
-export default Position;
+export default ClubPresident;

@@ -25,12 +25,14 @@ query TournamentRounds($where: TournamentRoundWhereInput) {
       id
       name
       image
+      clubPresidentId
     }
     clubIdAway
     clubAway {
       id
       name
       image
+      clubPresidentId
     }
     round
     createdAt

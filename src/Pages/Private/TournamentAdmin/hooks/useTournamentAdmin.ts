@@ -5,6 +5,8 @@ import {
   ClubsDocument,
   Tournament,
   Club,
+  ClubPresident,
+  ClubPresidentsDocument,
   TournamentGroupsDocument,
   TournamentGroup,
   TournamentRoundsDocument,
@@ -17,7 +19,8 @@ import { useState } from 'react';
 
 export const useTournamentAdmin = (Id: string) => {
   const [tournamentData, setTourmentData] = useState<Tournament>()
-  const [clubsData, setClubstData] = useState<Club[]>()
+  const [clubsData, setClubsData] = useState<Club[]>();
+  const [clubPresidentsData, setclubPresidentsData] = useState<ClubPresident[]>()
   const [tournamentGroupData, setTournamentGroupData] = useState<number[][]>()
   const [tournamentRoundsData, setTournamentRoundsData] = useState<TournamentRound[]>()
   const [players, setPlayers] = useState<Player[]>()
@@ -28,12 +31,22 @@ export const useTournamentAdmin = (Id: string) => {
   });
 
   const [getTournamentData] = useLazyQuery(TournamentDocument, {
-    onCompleted: ({ tournament }) => getCompleteData(tournament as Tournament),
+    onCompleted: ({ tournament }) => {
+      if (tournament?.clubCategoryId === 4) {
+        getclubPresidentData();
+      }
+      getCompleteData(tournament as Tournament)
+    },
     onError: (error) => console.log('errors', error),
   });
 
   const [getclubsData] = useLazyQuery(ClubsDocument, {
-    onCompleted: ({ clubs }) => setClubstData(clubs as Club[]),
+    onCompleted: ({ clubs }) => setClubsData(clubs as Club[]),
+    onError: (error) => console.log('errors', error),
+  });
+
+  const [getclubPresidentData] = useLazyQuery(ClubPresidentsDocument, {
+    onCompleted: ({ clubPresidents }) => setclubPresidentsData(clubPresidents as ClubPresident[]),
     onError: (error) => console.log('errors', error),
   });
 
@@ -68,7 +81,7 @@ export const useTournamentAdmin = (Id: string) => {
             equals: true
           },
           clubCategoryId: {
-            equals: parseInt(Id, 10)
+            equals: parseInt(Id === '3' ? '1' : Id, 10)
           }
         }
       },
@@ -141,6 +154,7 @@ export const useTournamentAdmin = (Id: string) => {
     players,
     tournamentGroupData,
     tournamentRoundsData,
-    handleCreate
+    handleCreate,
+    clubPresidentsData
   };
 };

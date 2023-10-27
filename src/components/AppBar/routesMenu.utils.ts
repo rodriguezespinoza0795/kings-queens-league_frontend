@@ -12,6 +12,12 @@ export const adminRoutesPath = [
     icon: 'AddModeratorIcon'
   },
   {
+    key: 'clubPresident',
+    label: 'Presidente',
+    route: 'admin/club-president',
+    icon: 'AdminPanelSettingsIcon'
+  },
+  {
     key: 'position',
     label: 'Posición',
     route: 'admin/position',
@@ -34,7 +40,7 @@ export const adminRoutesPath = [
     label: 'Torneos',
     route: 'admin/tournament',
     icon: 'EmojiEventsIcon'
-  }
+  },
 ]
 
 export const publicRoutesPath = [{ name: 'Estadísticas', route: '/' }];

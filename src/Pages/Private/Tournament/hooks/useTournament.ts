@@ -89,15 +89,7 @@ export const useTournament = () => {
   };
 
   useEffect(() => {
-    getTournaments({
-      variables: {
-        where: {
-          isActive: {
-            equals: true,
-          },
-        },
-      },
-    });
+    getTournaments();
   }, []);
 
   const deleteTournament = () => {

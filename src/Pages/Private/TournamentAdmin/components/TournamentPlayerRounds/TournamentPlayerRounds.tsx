@@ -16,17 +16,23 @@ import {
   CreatePlayerRoundDocument,
   PlayerRoundsDocument,
   PlayerRound,
+  Tournament,
+  ClubPresident,
 } from '@/types';
-import { useState } from 'react';
-import { get } from 'lodash';
+import { useEffect, useState } from 'react';
+import { get, has } from 'lodash';
 import { useMutation, useLazyQuery } from '@apollo/client';
 
 const TournamentPlayerRounds = ({
   data,
   players,
+  tournamentData,
+  clubPresidentsData,
 }: {
   data: TournamentRound[] | undefined;
   players: Player[] | undefined;
+  tournamentData: Tournament | undefined;
+  clubPresidentsData: ClubPresident[] | undefined;
 }) => {
   const [page, setPage] = useState(1);
   const [matchData, setMatchData] = useState<TournamentRound>();
@@ -77,6 +83,12 @@ const TournamentPlayerRounds = ({
       },
     });
   };
+
+  useEffect(() => {
+    if (data) {
+      getPlayerScoreData(data[0]);
+    }
+  }, [data]);
 
   const rounds = [...new Set(data?.map((item) => item.round))];
 
@@ -134,21 +146,23 @@ const TournamentPlayerRounds = ({
                 </ListItemButton>
               </ListItem>
             ))}
-          <Button
-            variant="contained"
-            disabled={disabled}
-            onClick={() =>
-              handleCreate(
-                Object.entries(playersScore).map((player) => ({
-                  score: parseInt(player[1] as string, 10),
-                  roundId: parseInt(matchData?.id as string, 10),
-                  playerId: parseInt(player[0], 10),
-                })),
-              )
-            }
-          >
-            Guardar
-          </Button>
+          {tournamentData?.isActive === 1 && (
+            <Button
+              variant="contained"
+              disabled={disabled}
+              onClick={() =>
+                handleCreate(
+                  Object.entries(playersScore).map((player) => ({
+                    score: parseInt(player[1] as string, 10),
+                    roundId: parseInt(matchData?.id as string, 10),
+                    playerId: parseInt(player[0], 10),
+                  })),
+                )
+              }
+            >
+              Guardar
+            </Button>
+          )}
         </List>
         <Box
           sx={{
@@ -190,7 +204,25 @@ const TournamentPlayerRounds = ({
               }}
             >
               {players
-                ?.filter((team) => team.clubId === matchData?.clubIdHome)
+                ?.filter((team) => {
+                  if (tournamentData?.clubCategoryId === 4) {
+                    return clubPresidentsData
+                      ?.find(
+                        (item) =>
+                          parseInt(item?.id, 10) ===
+                          matchData?.clubHome.clubPresidentId,
+                      )
+                      ?.club?.map((value) => parseInt(value.id, 10))
+                      .includes(team.clubId);
+                  }
+                  return team.clubId === matchData?.clubIdHome;
+                })
+                ?.filter(
+                  (player) =>
+                    (has(playersScore, player.id) &&
+                      tournamentData?.isActive === 0) ||
+                    tournamentData?.isActive === 1,
+                )
                 ?.sort((a, b) => a.positionId - b.positionId)
                 ?.map((player) => (
                   <Box
@@ -218,6 +250,7 @@ const TournamentPlayerRounds = ({
                     <TextField
                       label="Score"
                       variant="outlined"
+                      disabled={tournamentData?.isActive === 0}
                       value={get(playersScore, player.id, '')}
                       sx={{ width: '70px' }}
                       onChange={(e) =>
@@ -264,7 +297,25 @@ const TournamentPlayerRounds = ({
               }}
             >
               {players
-                ?.filter((team) => team.clubId === matchData?.clubIdAway)
+                ?.filter((team) => {
+                  if (tournamentData?.clubCategoryId === 4) {
+                    return clubPresidentsData
+                      ?.find(
+                        (item) =>
+                          parseInt(item?.id, 10) ===
+                          matchData?.clubAway.clubPresidentId,
+                      )
+                      ?.club?.map((value) => parseInt(value.id, 10))
+                      .includes(team.clubId);
+                  }
+                  return team.clubId === matchData?.clubIdAway;
+                })
+                ?.filter(
+                  (player) =>
+                    (has(playersScore, player.id) &&
+                      tournamentData?.isActive === 0) ||
+                    tournamentData?.isActive === 1,
+                )
                 ?.sort((a, b) => a.positionId - b.positionId)
                 ?.map((player) => (
                   <Box
@@ -291,6 +342,7 @@ const TournamentPlayerRounds = ({
                     </Box>
                     <TextField
                       label="Score"
+                      disabled={tournamentData?.isActive === 0}
                       variant="outlined"
                       sx={{ width: '70px' }}
                       value={get(playersScore, player.id, '')}
