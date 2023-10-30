@@ -61,6 +61,7 @@ const Position = () => {
       <Table
         headers={headers}
         rows={rows}
+        name="Posiciones"
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />

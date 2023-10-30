@@ -60,6 +60,7 @@ const ClubCategory = () => {
       </Button>
       <Table
         headers={headers}
+        name="Tipos de Club"
         rows={rows}
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}

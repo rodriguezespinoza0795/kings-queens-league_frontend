@@ -15,7 +15,6 @@ const DeleteClubCategory = ({
     <>
       <Box
         component="form"
-        onSubmit={onSubmit}
         sx={{
           display: 'flex',
           flexDirection: 'Column',
@@ -24,7 +23,7 @@ const DeleteClubCategory = ({
           alignItems: 'center',
         }}
       >
-        <DialogActions handleClose={handleClose} />
+        <DialogActions handleClose={handleClose} onSubmit={onSubmit} />
       </Box>
     </>
   );

@@ -13,6 +13,7 @@ import {
   Login,
   RecoveryPassword,
   SignUp,
+  Home,
 } from './Pages';
 import { useIsLoggedIn } from '@/hooks';
 
@@ -22,7 +23,8 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<AppBar />}>
-        <Route path="/" element={<TopPlayers />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/top-players" element={<TopPlayers />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/recovery-password" element={<RecoveryPassword />} />

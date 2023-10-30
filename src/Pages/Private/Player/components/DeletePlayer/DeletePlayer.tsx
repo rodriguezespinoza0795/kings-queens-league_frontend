@@ -12,7 +12,6 @@ const DeletePlayer = ({ handleClose, handleDelete }: DeletePlayerProps) => {
     <>
       <Box
         component="form"
-        onSubmit={onSubmit}
         sx={{
           display: 'flex',
           flexDirection: 'Column',
@@ -21,7 +20,7 @@ const DeletePlayer = ({ handleClose, handleDelete }: DeletePlayerProps) => {
           alignItems: 'center',
         }}
       >
-        <DialogActions handleClose={handleClose} />
+        <DialogActions handleClose={handleClose} onSubmit={onSubmit} />
       </Box>
     </>
   );

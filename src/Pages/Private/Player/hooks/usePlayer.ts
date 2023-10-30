@@ -98,15 +98,7 @@ export const usePlayer = () => {
   };
 
   useEffect(() => {
-    getPlayers({
-      variables: {
-        where: {
-          isActive: {
-            equals: true,
-          },
-        },
-      },
-    });
+    getPlayers();
   }, []);
 
   const deletePlayer = () => {
@@ -180,9 +172,11 @@ export const usePlayer = () => {
 
   const headers = [
     { key: 'id', name: 'ID', type: 'text' },
-    { key: 'image', name: 'Icono', type: 'image' },
+    { key: 'image', name: 'Imagen', type: 'image' },
     { key: 'name', name: 'Nombre', type: 'text' },
-    { key: 'club.image', name: 'Categoría', type: 'image' },
+    { key: 'club.image', name: 'Club', type: 'image' },
+    { key: 'position.name', name: 'Posición', type: 'text' },
+    { key: 'playerType.name', name: 'Tipo', type: 'text' },
     { key: 'createdAt', name: 'Fecha de Creación', type: 'date' },
     { key: 'updatedAt', name: 'Fecha de Modificación', type: 'date' },
     { key: 'isActive', name: 'Activo', type: 'boolean' },

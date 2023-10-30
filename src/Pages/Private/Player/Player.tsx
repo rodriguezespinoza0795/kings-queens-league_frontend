@@ -68,6 +68,7 @@ const Player = () => {
       </Button>
       <Table
         headers={headers}
+        name="Jugadores"
         rows={rows}
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}

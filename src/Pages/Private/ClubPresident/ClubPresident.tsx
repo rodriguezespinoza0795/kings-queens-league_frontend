@@ -58,6 +58,7 @@ const ClubPresident = () => {
       <Table
         headers={headers}
         rows={rows}
+        name="Presidentes"
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />

@@ -20,6 +20,7 @@ query PlayersCatalogues(
     id
     image
     name
+    isActive
   }
 }
 

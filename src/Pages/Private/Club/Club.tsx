@@ -56,6 +56,7 @@ const Club = () => {
       </Button>
       <Table
         headers={headers}
+        name="Equipos"
         rows={rows}
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}

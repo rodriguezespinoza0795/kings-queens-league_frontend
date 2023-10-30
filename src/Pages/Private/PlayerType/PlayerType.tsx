@@ -61,6 +61,7 @@ const PlayerType = () => {
       <Table
         headers={headers}
         rows={rows}
+        name="Tipos de jugador"
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />

@@ -1,5 +1,6 @@
 export type BasicTableProps = {
   headers: { key: string; name: string; type: string }[];
+  name: string;
   rows: any[];
   deleteItem: (data: any) => void;
   updateItem: (data: any) => void;

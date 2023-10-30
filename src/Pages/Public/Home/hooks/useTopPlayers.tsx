@@ -49,7 +49,7 @@ export const useTopPlayers = (): TopPlayers => {
           },
           round: {
             tournamentId: {
-              notIn: [3],
+              equals: 3,
             },
           },
         },
@@ -62,23 +62,11 @@ export const useTopPlayers = (): TopPlayers => {
     });
   }, []);
 
-  const [filter, setFilter] = useState(0);
-
-  const handleFilter = (value: number) => {
-    if (value === filter) {
-      setFilter(0);
-    } else {
-      setFilter(value);
-    }
-  };
-
   return {
     topPlayers,
     position,
     handleChangePosition,
     playerType,
     handleChangePlayer,
-    handleFilter,
-    filter,
   };
 };

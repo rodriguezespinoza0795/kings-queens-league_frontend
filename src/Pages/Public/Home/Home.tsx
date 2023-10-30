@@ -2,24 +2,16 @@ import { Accordion } from '@/components';
 import { Typography, Box, Grid, Tabs, Tab, Avatar } from '@mui/material';
 import { useTopPlayers } from './hooks';
 import { getPlayerByKey, sortData, sumScore } from './TopPlayers.utils';
-import { PlayerRound } from '@/types';
 import { LineChart } from './components';
 
-const TopPlayers = () => {
+const Home = () => {
   const {
     topPlayers,
     position,
     handleChangePosition,
     playerType,
     handleChangePlayer,
-    handleFilter,
-    filter,
   } = useTopPlayers();
-
-  const filterCategory = (data: PlayerRound[]) => {
-    if (filter === 0) return data;
-    return data.filter((item) => item.player?.club.clubCategoryId === filter);
-  };
 
   const positions = [
     ...new Set(topPlayers.playerRounds.map((item) => item.player.positionId)),
@@ -39,19 +31,6 @@ const TopPlayers = () => {
           gap: '20px',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography>Filtrar por:</Typography>
-          {topPlayers?.clubCategories
-            ?.filter((value) => value?.id !== '4')
-            .map((item) => (
-              <Avatar
-                key={item.id}
-                alt={item.name}
-                src={item.image}
-                onClick={() => handleFilter(parseInt(item.id, 10))}
-              />
-            ))}
-        </Box>
         <Typography variant="h6">Mejores Equipos</Typography>
         <Box
           sx={{
@@ -61,21 +40,21 @@ const TopPlayers = () => {
             gap: '30px',
           }}
         >
-          {sortData(
-            sumScore(filterCategory(topPlayers.playerRounds), 'player.clubId'),
-          )?.map((player) => (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-              key={player?.player?.clubId}
-            >
-              <Avatar alt="Remy Sharp" src={player?.player?.club?.image} />
-              <Typography>{`${player?.score} pts`}</Typography>
-            </Box>
-          ))}
+          {sortData(sumScore(topPlayers.playerRounds, 'player.clubId'))?.map(
+            (player) => (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                }}
+                key={player?.player?.clubId}
+              >
+                <Avatar alt="Remy Sharp" src={player?.player?.club?.image} />
+                <Typography>{`${player?.score} pts`}</Typography>
+              </Box>
+            ),
+          )}
         </Box>
       </Box>
       <Typography variant="h6" textAlign="center" sx={{ paddingTop: '30px' }}>
@@ -115,7 +94,7 @@ const TopPlayers = () => {
                         topPlayers.playerRounds,
                         'positionId',
                         pos,
-                        filter,
+                        0,
                       )}
                       category={pos.toString()}
                     />
@@ -156,7 +135,7 @@ const TopPlayers = () => {
                         topPlayers.playerRounds,
                         'playerTypeId',
                         pt,
-                        filter,
+                        0,
                       )}
                       category={pt.toString()}
                     />
@@ -165,13 +144,9 @@ const TopPlayers = () => {
           </Box>
         </Grid>
       </Grid>
-      <LineChart
-        dataList={topPlayers.playerRounds.filter(
-          (item) => item.player?.club.clubCategoryId === filter,
-        )}
-      />
+      <LineChart dataList={topPlayers.playerRounds} />
     </Box>
   );
 };
 
-export default TopPlayers;
+export default Home;

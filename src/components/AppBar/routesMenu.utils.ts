@@ -43,5 +43,5 @@ export const adminRoutesPath = [
   },
 ]
 
-export const publicRoutesPath = [{ name: 'Estadísticas', route: '/' }];
+export const publicRoutesPath = [{ name: 'Home', route: '/' }, { name: 'Estadísticas', route: '/top-players' }];
 

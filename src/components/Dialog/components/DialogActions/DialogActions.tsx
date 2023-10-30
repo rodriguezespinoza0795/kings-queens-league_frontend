@@ -1,8 +1,10 @@
 import { Button, DialogActions } from '@mui/material';
 const DialogActionsComponent = ({
   handleClose,
+  onSubmit,
 }: {
   handleClose: () => void;
+  onSubmit?: () => void;
 }) => {
   return (
     <DialogActions
@@ -15,9 +17,15 @@ const DialogActionsComponent = ({
       <Button onClick={handleClose} variant="outlined" color="error">
         Cancelar
       </Button>
-      <Button type="submit" variant="contained">
-        Aceptar
-      </Button>
+      {onSubmit ? (
+        <Button type="button" variant="contained" onClick={onSubmit}>
+          Aceptar
+        </Button>
+      ) : (
+        <Button type="submit" variant="contained">
+          Aceptar
+        </Button>
+      )}
     </DialogActions>
   );
 };

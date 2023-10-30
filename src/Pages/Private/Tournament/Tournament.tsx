@@ -67,6 +67,7 @@ const Tournament = () => {
       <Table
         headers={headers}
         rows={rows}
+        name="Torneos"
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
         detailsItem={seeDetails}
