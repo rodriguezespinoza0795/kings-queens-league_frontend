@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Paper,
   Typography,
@@ -8,12 +7,13 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
+  TextField,
 } from '@mui/material';
 import { TournamentRound, Club, Tournament } from '@/types';
 import { ExpandMore } from '@mui/icons-material';
 import { TournamentForm } from '../TournamentForm';
 import { Dialog } from '@/components';
-import { get } from 'lodash';
+import { useTournamentRoundsDetails } from './useTournamentRoundsDetails';
 
 const TournamentRoundsDetails = ({
   data,
@@ -26,29 +26,20 @@ const TournamentRoundsDetails = ({
   tournamentData: Tournament | undefined;
   handleCreate: (data: any) => void;
 }) => {
-  const [expanded, setExpanded] = useState<string | false>(false);
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleChange =
-    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
-
+  const {
+    handleClose,
+    open,
+    onSubmit,
+    handleOpen,
+    expanded,
+    handleChange,
+    showField,
+    handleFields,
+    matchResults,
+    setMatchResults,
+    onSubmitRoundMatch,
+  } = useTournamentRoundsDetails(handleCreate, tournamentData);
   const rounds = [...new Set(data?.map((item) => item.round))];
-
-  const onSubmit = (data: any, matches: number) => {
-    const parsedData = [...Array(matches).keys()].map((item) => {
-      return {
-        tournamentId: parseInt(tournamentData?.id || '0', 10),
-        clubIdHome: parseInt(get(data, `home${item}`, '0'), 10),
-        clubIdAway: parseInt(get(data, `away${item}`, '0'), 10),
-        round: parseInt(data.round, 10),
-      };
-    });
-    handleCreate(parsedData);
-  };
 
   return (
     <>
@@ -82,10 +73,33 @@ const TournamentRoundsDetails = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ display: 'grid', gap: '10px' }}>
+            {showField ? (
+              <Box sx={{ display: 'flex', width: '100%', gap: '20px' }}>
+                <Button variant="outlined" onClick={handleFields} fullWidth>
+                  Cancelar
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    onSubmitRoundMatch(
+                      matchResults,
+                      data?.filter((round) => round.round === item),
+                    )
+                  }
+                  fullWidth
+                >
+                  Guardar
+                </Button>
+              </Box>
+            ) : (
+              <Button variant="contained" onClick={handleFields}>
+                Agregar Resultados
+              </Button>
+            )}
             {data &&
               data
                 .filter((round) => round.round === item)
-                .map((item) => (
+                .map((item, index) => (
                   <Paper
                     elevation={3}
                     sx={{
@@ -113,6 +127,24 @@ const TournamentRoundsDetails = ({
                       <Typography align="center">
                         {item.clubHome.name}
                       </Typography>
+                      {showField && (
+                        <TextField
+                          value={
+                            matchResults[
+                              `local${index + 1}` as keyof typeof matchResults
+                            ]
+                          }
+                          onChange={(e) =>
+                            setMatchResults({
+                              ...matchResults,
+                              [`local${index + 1}`]: e.target.value,
+                            })
+                          }
+                          label="local"
+                          variant="outlined"
+                          sx={{ width: '60px' }}
+                        />
+                      )}
                     </Box>
                     <Typography align="center">VS</Typography>
                     <Box
@@ -122,6 +154,24 @@ const TournamentRoundsDetails = ({
                         gap: '10px',
                       }}
                     >
+                      {showField && (
+                        <TextField
+                          value={
+                            matchResults[
+                              `away${index + 1}` as keyof typeof matchResults
+                            ]
+                          }
+                          onChange={(e) =>
+                            setMatchResults({
+                              ...matchResults,
+                              [`away${index + 1}`]: e.target.value,
+                            })
+                          }
+                          label="Visitante"
+                          variant="outlined"
+                          sx={{ width: '60px' }}
+                        />
+                      )}
                       <Avatar
                         alt="Remy Sharp"
                         src={item.clubAway.image}

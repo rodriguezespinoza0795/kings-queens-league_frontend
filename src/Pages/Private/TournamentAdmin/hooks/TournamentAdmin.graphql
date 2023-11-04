@@ -91,3 +91,23 @@ mutation UpdatePlayerRound($Id: ID!, $data: PlayerRoundUpdateInput!) {
     id
   }
 }
+
+mutation createRoundMatches($data: [RoundMatchInput]!) {
+  createRoundMatches(data: $data) {
+    count
+  }
+}
+
+query Query($where: RoundMatchWhereInput) {
+  roundMatches(where: $where) {
+    id
+    roundId
+    clubHomeScore
+    clubHomeScoreDraw
+    clubHomePoints
+    clubAwayScore
+    clubAwayScoreDraw
+    clubAwayPoint
+    isActive
+  }
+}

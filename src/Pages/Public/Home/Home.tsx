@@ -1,6 +1,18 @@
 import { Accordion } from '@/components';
-import { Typography, Box, Grid, Tabs, Tab, Avatar } from '@mui/material';
-import { useTopPlayers } from './hooks';
+import {
+  Typography,
+  Box,
+  Grid,
+  Tabs,
+  Tab,
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Divider,
+} from '@mui/material';
+import { useHome } from './hooks';
 import { getPlayerByKey, sortData, sumScore } from './TopPlayers.utils';
 import { LineChart } from './components';
 
@@ -11,7 +23,7 @@ const Home = () => {
     handleChangePosition,
     playerType,
     handleChangePlayer,
-  } = useTopPlayers();
+  } = useHome();
 
   const positions = [
     ...new Set(topPlayers.playerRounds.map((item) => item.player.positionId)),
@@ -23,6 +35,55 @@ const Home = () => {
 
   return (
     <Box sx={{ padding: '20px' }}>
+      <Box>
+        <Typography variant="h5" textAlign={'center'}>
+          Clasificación
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+          <Box sx={{ display: 'grid', justifyItems: 'center' }}>
+            <Typography variant="h6">Grupo A</Typography>
+            <List dense={true}>
+              {topPlayers.tournamentGroups
+                ?.filter((item) => item.name === 'A')
+                .map((item) => (
+                  <>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar alt={item.club.name} src={item.club.image} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={item.club.name}
+                        // secondary={'Secondary text'}
+                      />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </>
+                ))}
+            </List>
+          </Box>
+          <Box sx={{ display: 'grid', justifyItems: 'center' }}>
+            <Typography variant="h6">Grupo B</Typography>
+            <List dense={true}>
+              {topPlayers.tournamentGroups
+                ?.filter((item) => item.name === 'B')
+                .map((item) => (
+                  <>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar alt={item.club.name} src={item.club.image} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={item.club.name}
+                        // secondary={'Secondary text'}
+                      />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </>
+                ))}
+            </List>
+          </Box>
+        </Box>
+      </Box>
       <Box
         sx={{
           display: 'flex',

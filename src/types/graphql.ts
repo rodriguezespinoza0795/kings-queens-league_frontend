@@ -104,6 +104,7 @@ export type Mutation = {
   createPlayerRound: Count;
   createPlayerType: PlayerType;
   createPosition: Club;
+  createRoundMatches: Count;
   createTournament: Tournament;
   createTournamentGroup: Count;
   createTournamentRound: Count;
@@ -165,6 +166,11 @@ export type MutationCreatePlayerTypeArgs = {
 
 export type MutationCreatePositionArgs = {
   data: PositionInput;
+};
+
+
+export type MutationCreateRoundMatchesArgs = {
+  data: Array<InputMaybe<RoundMatchInput>>;
 };
 
 
@@ -435,6 +441,8 @@ export type Query = {
   players: Array<Maybe<Player>>;
   position?: Maybe<Position>;
   positions: Array<Maybe<Position>>;
+  roundMatch?: Maybe<RoundMatch>;
+  roundMatches: Array<Maybe<RoundMatch>>;
   tournament?: Maybe<Tournament>;
   tournamentGroup?: Maybe<TournamentGroup>;
   tournamentGroups: Array<Maybe<TournamentGroup>>;
@@ -528,6 +536,18 @@ export type QueryPositionsArgs = {
 };
 
 
+export type QueryRoundMatchArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryRoundMatchesArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<RoundMatchWhereInput>;
+};
+
+
 export type QueryTournamentArgs = {
   id: Scalars['ID']['input'];
 };
@@ -561,6 +581,38 @@ export type QueryTournamentsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<NameWhereInput>;
+};
+
+export type RoundMatch = BaseModel & {
+  __typename?: 'RoundMatch';
+  clubAwayPoint: Scalars['Int']['output'];
+  clubAwayScore: Scalars['Int']['output'];
+  clubAwayScoreDraw?: Maybe<Scalars['Int']['output']>;
+  clubHomePoints: Scalars['Int']['output'];
+  clubHomeScore: Scalars['Int']['output'];
+  clubHomeScoreDraw?: Maybe<Scalars['Int']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Int']['output'];
+  round: TournamentRound;
+  roundId: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type RoundMatchInput = {
+  clubAwayPoint: Scalars['Int']['input'];
+  clubAwayScore: Scalars['Int']['input'];
+  clubAwayScoreDraw?: InputMaybe<Scalars['Int']['input']>;
+  clubHomePoints: Scalars['Int']['input'];
+  clubHomeScore: Scalars['Int']['input'];
+  clubHomeScoreDraw?: InputMaybe<Scalars['Int']['input']>;
+  roundId: Scalars['Int']['input'];
+};
+
+export type RoundMatchWhereInput = {
+  isActive?: InputMaybe<BoolFilterInput>;
+  round?: InputMaybe<TournamentRoundWhereInput>;
+  roundId?: InputMaybe<NumberFilterInput>;
 };
 
 export type StringFilterInput = {
@@ -967,6 +1019,20 @@ export type UpdatePlayerRoundMutationVariables = Exact<{
 
 export type UpdatePlayerRoundMutation = { __typename?: 'Mutation', updatePlayerRound: { __typename?: 'PlayerRound', id: string } };
 
+export type CreateRoundMatchesMutationVariables = Exact<{
+  data: Array<InputMaybe<RoundMatchInput>> | InputMaybe<RoundMatchInput>;
+}>;
+
+
+export type CreateRoundMatchesMutation = { __typename?: 'Mutation', createRoundMatches: { __typename?: 'Count', count?: number | null } };
+
+export type QueryQueryVariables = Exact<{
+  where?: InputMaybe<RoundMatchWhereInput>;
+}>;
+
+
+export type QueryQuery = { __typename?: 'Query', roundMatches: Array<{ __typename?: 'RoundMatch', id: string, roundId: number, clubHomeScore: number, clubHomeScoreDraw?: number | null, clubHomePoints: number, clubAwayScore: number, clubAwayScoreDraw?: number | null, clubAwayPoint: number, isActive: number } | null> };
+
 export type SignInMutationVariables = Exact<{
   data: UserSignInInput;
 }>;
@@ -977,10 +1043,11 @@ export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: '
 export type TopPlayersCataloguesQueryVariables = Exact<{
   where?: InputMaybe<PlayerRoundWhereInput>;
   whereCategory?: InputMaybe<NameWhereInput>;
+  whereTournamentGroup?: InputMaybe<TournamentGroupWhereInput>;
 }>;
 
 
-export type TopPlayersCataloguesQuery = { __typename?: 'Query', playerRounds: Array<{ __typename?: 'PlayerRound', score: number, roundId: number, playerId: number, round: { __typename?: 'TournamentRound', round?: number | null }, player: { __typename?: 'Player', id: string, name: string, image: string, lastName?: string | null, positionId: number, playerTypeId: number, clubId: number, club: { __typename?: 'Club', id: string, name: string, image: string, color: string, clubCategoryId: number } } } | null>, clubCategories: Array<{ __typename?: 'ClubCategory', id: string, name: string, image: string, isActive: number } | null> };
+export type TopPlayersCataloguesQuery = { __typename?: 'Query', playerRounds: Array<{ __typename?: 'PlayerRound', score: number, roundId: number, playerId: number, round: { __typename?: 'TournamentRound', round?: number | null }, player: { __typename?: 'Player', id: string, name: string, image: string, lastName?: string | null, positionId: number, playerTypeId: number, clubId: number, club: { __typename?: 'Club', id: string, name: string, image: string, color: string, clubCategoryId: number } } } | null>, clubCategories: Array<{ __typename?: 'ClubCategory', id: string, name: string, image: string, isActive: number } | null>, tournamentGroups: Array<{ __typename?: 'TournamentGroup', id: string, name: string, clubId: number, club: { __typename?: 'Club', id: string, name: string, image: string } } | null> };
 
 
 export const ClubsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Clubs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clubs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategoryId"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"clubPresidentId"}},{"kind":"Field","name":{"kind":"Name","value":"clubPresident"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<ClubsQuery, ClubsQueryVariables>;
@@ -1021,5 +1088,7 @@ export const CreateTournamentRoundDocument = {"kind":"Document","definitions":[{
 export const CreatePlayerRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePlayerRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PlayerRoundInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPlayerRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<CreatePlayerRoundMutation, CreatePlayerRoundMutationVariables>;
 export const DeletePlayerRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deletePlayerRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"Id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deletePlayerRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"Id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeletePlayerRoundMutation, DeletePlayerRoundMutationVariables>;
 export const UpdatePlayerRoundDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePlayerRound"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"Id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PlayerRoundUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePlayerRound"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"Id"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdatePlayerRoundMutation, UpdatePlayerRoundMutationVariables>;
+export const CreateRoundMatchesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createRoundMatches"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RoundMatchInput"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createRoundMatches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<CreateRoundMatchesMutation, CreateRoundMatchesMutationVariables>;
+export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"RoundMatchWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"roundMatches"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"roundId"}},{"kind":"Field","name":{"kind":"Name","value":"clubHomeScore"}},{"kind":"Field","name":{"kind":"Name","value":"clubHomeScoreDraw"}},{"kind":"Field","name":{"kind":"Name","value":"clubHomePoints"}},{"kind":"Field","name":{"kind":"Name","value":"clubAwayScore"}},{"kind":"Field","name":{"kind":"Name","value":"clubAwayScoreDraw"}},{"kind":"Field","name":{"kind":"Name","value":"clubAwayPoint"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const SignInDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"signIn"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserSignInInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signIn"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<SignInMutation, SignInMutationVariables>;
-export const TopPlayersCataloguesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TopPlayersCatalogues"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PlayerRoundWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"whereCategory"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playerRounds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"roundId"}},{"kind":"Field","name":{"kind":"Name","value":"round"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"round"}}]}},{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"positionId"}},{"kind":"Field","name":{"kind":"Name","value":"playerTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"clubId"}},{"kind":"Field","name":{"kind":"Name","value":"club"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategoryId"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"clubCategories"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"whereCategory"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<TopPlayersCataloguesQuery, TopPlayersCataloguesQueryVariables>;
+export const TopPlayersCataloguesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TopPlayersCatalogues"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PlayerRoundWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"whereCategory"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"whereTournamentGroup"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"TournamentGroupWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playerRounds"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"roundId"}},{"kind":"Field","name":{"kind":"Name","value":"round"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"round"}}]}},{"kind":"Field","name":{"kind":"Name","value":"playerId"}},{"kind":"Field","name":{"kind":"Name","value":"player"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"positionId"}},{"kind":"Field","name":{"kind":"Name","value":"playerTypeId"}},{"kind":"Field","name":{"kind":"Name","value":"clubId"}},{"kind":"Field","name":{"kind":"Name","value":"club"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"color"}},{"kind":"Field","name":{"kind":"Name","value":"clubCategoryId"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"clubCategories"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"whereCategory"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}},{"kind":"Field","name":{"kind":"Name","value":"tournamentGroups"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"whereTournamentGroup"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"clubId"}},{"kind":"Field","name":{"kind":"Name","value":"club"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode<TopPlayersCataloguesQuery, TopPlayersCataloguesQueryVariables>;

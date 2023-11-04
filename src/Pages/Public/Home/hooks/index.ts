@@ -1,1 +1,1 @@
-export * from './useTopPlayers'
+export * from './useHome'

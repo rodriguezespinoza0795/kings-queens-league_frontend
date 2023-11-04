@@ -1,6 +1,7 @@
 query TopPlayersCatalogues(
   $where: PlayerRoundWhereInput
   $whereCategory: NameWhereInput
+  $whereTournamentGroup: TournamentGroupWhereInput
 ) {
   playerRounds(where: $where) {
     score
@@ -31,5 +32,15 @@ query TopPlayersCatalogues(
     name
     image
     isActive
+  }
+  tournamentGroups(where: $whereTournamentGroup) {
+    id
+    name
+    clubId
+    club {
+      id
+      name
+      image
+    }
   }
 }

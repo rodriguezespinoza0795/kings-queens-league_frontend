@@ -5,13 +5,16 @@ import {
   PlayerRound,
   TopPlayersCataloguesDocument,
   ClubCategory,
+  TournamentsDocument,
+  TournamentGroup,
 } from '@/types';
 
-export const useTopPlayers = (): TopPlayers => {
+export const useHome = (): TopPlayers => {
   const [topPlayers, setTopPlayers] = useState<{
     playerRounds: PlayerRound[];
     clubCategories: ClubCategory[];
-  }>({ playerRounds: [], clubCategories: [] });
+    tournamentGroups: TournamentGroup[];
+  }>({ playerRounds: [], clubCategories: [], tournamentGroups: [] });
 
   const [position, setPosition] = useState(0);
   const handleChangePosition = (
@@ -35,12 +38,20 @@ export const useTopPlayers = (): TopPlayers => {
         data as {
           playerRounds: PlayerRound[];
           clubCategories: ClubCategory[];
+          tournamentGroups: TournamentGroup[];
         },
       ),
     onError: (error) => console.log('errors', error),
   });
 
-  useEffect(() => {
+  const [getTournament] = useLazyQuery(TournamentsDocument, {
+    onCompleted: ({ tournaments }) => {
+      if (tournaments[0]) getTopPlayersData(tournaments[0].id);
+    },
+    onError: (error) => console.log('errors', error),
+  });
+
+  const getTopPlayersData = (id: string) => {
     topPlayersData({
       variables: {
         where: {
@@ -49,11 +60,31 @@ export const useTopPlayers = (): TopPlayers => {
           },
           round: {
             tournamentId: {
-              equals: 3,
+              equals: parseInt(id, 10),
             },
           },
         },
         whereCategory: {
+          isActive: {
+            equals: true,
+          },
+        },
+        whereTournamentGroup: {
+          isActive: {
+            equals: true,
+          },
+          tournamentId: {
+            equals: parseInt(id, 10),
+          },
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    getTournament({
+      variables: {
+        where: {
           isActive: {
             equals: true,
           },
