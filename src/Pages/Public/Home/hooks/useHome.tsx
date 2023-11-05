@@ -7,6 +7,8 @@ import {
   ClubCategory,
   TournamentsDocument,
   TournamentGroup,
+  RoundMatch,
+  TournamentRound,
 } from '@/types';
 
 export const useHome = (): TopPlayers => {
@@ -14,7 +16,15 @@ export const useHome = (): TopPlayers => {
     playerRounds: PlayerRound[];
     clubCategories: ClubCategory[];
     tournamentGroups: TournamentGroup[];
-  }>({ playerRounds: [], clubCategories: [], tournamentGroups: [] });
+    roundMatches: RoundMatch[];
+    tournamentRounds: TournamentRound[];
+  }>({
+    playerRounds: [],
+    clubCategories: [],
+    tournamentGroups: [],
+    roundMatches: [],
+    tournamentRounds: [],
+  });
 
   const [position, setPosition] = useState(0);
   const handleChangePosition = (
@@ -39,6 +49,8 @@ export const useHome = (): TopPlayers => {
           playerRounds: PlayerRound[];
           clubCategories: ClubCategory[];
           tournamentGroups: TournamentGroup[];
+          roundMatches: RoundMatch[];
+          tournamentRounds: TournamentRound[];
         },
       ),
     onError: (error) => console.log('errors', error),
@@ -70,6 +82,24 @@ export const useHome = (): TopPlayers => {
           },
         },
         whereTournamentGroup: {
+          isActive: {
+            equals: true,
+          },
+          tournamentId: {
+            equals: parseInt(id, 10),
+          },
+        },
+        whereRoundMatches: {
+          round: {
+            tournamentId: {
+              equals: parseInt(id, 10),
+            },
+            isActive: {
+              equals: true,
+            },
+          },
+        },
+        whereTournamentRounds: {
           isActive: {
             equals: true,
           },

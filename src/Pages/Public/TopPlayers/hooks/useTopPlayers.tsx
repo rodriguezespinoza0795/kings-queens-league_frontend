@@ -6,6 +6,8 @@ import {
   TopPlayersCataloguesDocument,
   ClubCategory,
   TournamentGroup,
+  RoundMatch,
+  TournamentRound,
 } from '@/types';
 
 export const useTopPlayers = (): TopPlayers => {
@@ -37,6 +39,8 @@ export const useTopPlayers = (): TopPlayers => {
           playerRounds: PlayerRound[];
           clubCategories: ClubCategory[];
           tournamentGroups: TournamentGroup[];
+          roundMatches: RoundMatch[];
+          tournamentRounds: TournamentRound[];
         },
       ),
     onError: (error) => console.log('errors', error),

@@ -1,7 +1,9 @@
 import {
   PlayerRound,
   ClubCategory,
-  TournamentGroup
+  TournamentGroup,
+  RoundMatch,
+  TournamentRound
 } from '@/types';
 
 export interface TopPlayers {
@@ -16,5 +18,7 @@ export interface TopPlayers {
     playerRounds: PlayerRound[];
     clubCategories: ClubCategory[];
     tournamentGroups: TournamentGroup[];
+    roundMatches: RoundMatch[];
+    tournamentRounds: TournamentRound[];
   };
 }

@@ -6,15 +6,16 @@ import {
   Tabs,
   Tab,
   Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Divider,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@mui/material';
 import { useHome } from './hooks';
 import { getPlayerByKey, sortData, sumScore } from './TopPlayers.utils';
 import { LineChart } from './components';
+import { get } from 'lodash';
+import { RoundMatch } from '@/types';
 
 const Home = () => {
   const {
@@ -33,54 +34,109 @@ const Home = () => {
     ...new Set(topPlayers.playerRounds.map((item) => item.player.playerTypeId)),
   ];
 
+  const roundMatches = topPlayers.roundMatches.map((item) => {
+    const round = topPlayers.tournamentRounds.find(
+      (value) => parseInt(value.id) === item.roundId,
+    );
+    return {
+      ...item,
+      clubIdAway: round?.clubIdAway,
+      clubIdHome: round?.clubIdHome,
+    };
+  });
+
+  type ObjSum = {
+    [key: number]: { points: number; score: number };
+  };
+
+  const getSumScore = (data: RoundMatch[]) => {
+    return data.reduce((res: ObjSum, value) => {
+      const clubIdHome = get(value, 'clubIdHome', 0) as keyof typeof res;
+      const clubIdAway = get(value, 'clubIdAway', 0) as keyof typeof res;
+      // if (!res[keyName]) {
+      //   res[keyName] = { ...value, score: 0, roundScore: [] };
+      //   result.push(res[keyName]);
+      // }
+      res[clubIdHome] = {
+        points: value.clubHomePoints,
+        score: value.clubHomeScore - value.clubAwayScore,
+      };
+      res[clubIdAway] = {
+        points: value.clubAwayPoint,
+        score: value.clubAwayScore - value.clubHomeScore,
+      };
+      return res;
+    }, {});
+  };
+
+  const scores = getSumScore(roundMatches);
+
   return (
     <Box sx={{ padding: '20px' }}>
       <Box>
         <Typography variant="h5" textAlign={'center'}>
           Clasificación
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            paddingY: '10px',
+          }}
+        >
           <Box sx={{ display: 'grid', justifyItems: 'center' }}>
             <Typography variant="h6">Grupo A</Typography>
-            <List dense={true}>
-              {topPlayers.tournamentGroups
-                ?.filter((item) => item.name === 'A')
-                .map((item) => (
-                  <>
-                    <ListItem>
-                      <ListItemAvatar>
+            <Table size="small">
+              <TableBody>
+                {topPlayers.tournamentGroups
+                  ?.filter((item) => item.name === 'A')
+                  .map((item) => ({ ...item, ...scores[item.clubId] }))
+                  .sort((a, b) => {
+                    if (b.points < a.points) return -1;
+                    if (a.points > b.points) return 1;
+                    if (b.score < a.score) return -1;
+                    if (a.score > b.score) return 1;
+                    return 0;
+                  })
+                  .map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
                         <Avatar alt={item.club.name} src={item.club.image} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={item.club.name}
-                        // secondary={'Secondary text'}
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </>
-                ))}
-            </List>
+                      </TableCell>
+                      <TableCell>{item.club.name}</TableCell>
+                      <TableCell>{item.points}</TableCell>
+                      <TableCell>{item.score}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </Box>
           <Box sx={{ display: 'grid', justifyItems: 'center' }}>
             <Typography variant="h6">Grupo B</Typography>
-            <List dense={true}>
-              {topPlayers.tournamentGroups
-                ?.filter((item) => item.name === 'B')
-                .map((item) => (
-                  <>
-                    <ListItem>
-                      <ListItemAvatar>
+            <Table size="small">
+              <TableBody>
+                {topPlayers.tournamentGroups
+                  ?.filter((item) => item.name === 'B')
+                  .map((item) => ({ ...item, ...scores[item.clubId] }))
+                  .sort((a, b) => {
+                    if (b.points < a.points) return -1;
+                    if (a.points > b.points) return 1;
+                    if (b.score < a.score) return -1;
+                    if (a.score > b.score) return 1;
+                    return 0;
+                  })
+                  .map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
                         <Avatar alt={item.club.name} src={item.club.image} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={item.club.name}
-                        // secondary={'Secondary text'}
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </>
-                ))}
-            </List>
+                      </TableCell>
+                      <TableCell>{item.club.name}</TableCell>
+                      <TableCell>{item.points}</TableCell>
+                      <TableCell>{item.score}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </Box>
         </Box>
       </Box>

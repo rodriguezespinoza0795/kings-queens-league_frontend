@@ -98,7 +98,7 @@ mutation createRoundMatches($data: [RoundMatchInput]!) {
   }
 }
 
-query Query($where: RoundMatchWhereInput) {
+query roundMatches($where: RoundMatchWhereInput) {
   roundMatches(where: $where) {
     id
     roundId
