@@ -104,7 +104,7 @@ const PlayerForm = ({
           exclusive
           aria-label="Platform"
         >
-          {catalogues.positions.map((item) => (
+          {catalogues?.positions?.map((item) => (
             <ToggleButton
               value={item.id}
               onClick={() => setValue('positionId', parseInt(item.id))}
@@ -120,7 +120,7 @@ const PlayerForm = ({
           exclusive
           aria-label="Platform"
         >
-          {catalogues.playerTypes.map((item) => (
+          {catalogues?.playerTypes?.map((item) => (
             <ToggleButton
               value={item.id}
               onClick={() => setValue('playerTypeId', parseInt(item.id))}
@@ -136,7 +136,7 @@ const PlayerForm = ({
           aria-label="Platform"
           value={category.toString()}
         >
-          {catalogues.clubCategories.map((item) => (
+          {catalogues?.clubCategories?.map((item) => (
             <ToggleButton
               value={item.id}
               key={item.id}
@@ -149,13 +149,17 @@ const PlayerForm = ({
         <Autocomplete
           id="country-select-demo"
           sx={{ width: 300 }}
-          options={catalogues.clubs.filter(
-            (item) => item.clubCategoryId === category,
-          )}
+          options={
+            catalogues?.clubs?.filter(
+              (item) => item.clubCategoryId === category,
+            ) || []
+          }
           autoHighlight
-          defaultValue={catalogues.clubs.find(
-            (item) => watch('clubId').toString() === item.id,
-          )}
+          defaultValue={
+            catalogues?.clubs?.find(
+              (item) => watch('clubId').toString() === item.id,
+            ) || []
+          }
           getOptionLabel={(option) => option.name}
           onChange={(_e, value) => setValue('clubId', parseInt(value.id, 10))}
           renderOption={(props, option) => (

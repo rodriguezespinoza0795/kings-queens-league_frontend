@@ -22,6 +22,7 @@ const Player = () => {
     openDelete,
     catalogues,
   } = usePlayer();
+
   return (
     <Box sx={{ padding: '20px' }}>
       <Dialog handleClose={handleClose} open={open} title="Crear nuevo jugador">
@@ -70,6 +71,7 @@ const Player = () => {
         headers={headers}
         name="Jugadores"
         rows={rows}
+        catalogues={catalogues}
         deleteItem={handleClickOpenDelete}
         updateItem={handleClickOpenUpdate}
       />

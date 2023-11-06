@@ -15,7 +15,7 @@ export type UsePlayer = () => {
   handleCreate: () => void;
 };
 
-export type catalogueType = { clubs: any[], positions: any[], playerTypes: any[], clubCategories: any[] }
+export type catalogueType = { clubs?: any[], positions?: any[], playerTypes?: any[], clubCategories?: any[] }
 
 export type DataValues = {
   id: string

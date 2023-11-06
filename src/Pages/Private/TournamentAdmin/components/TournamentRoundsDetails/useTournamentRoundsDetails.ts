@@ -7,7 +7,9 @@ import { useMutation } from '@apollo/client';
 export const useTournamentRoundsDetails = (handleCreate: (data: any) => void, tournamentData: Tournament | undefined) => {
   const defaultMatchValues = {
     "local1": '', "local2": '', "local3": '', "local4": '', "local5": '', "local6": '',
-    "away1": '', "away2": '', "away3": '', "away4": '', "away5": '', "away6": ''
+    "localDraw1": '', "localDraw2": '', "localDraw3": '', "localDraw4": '', "localDraw5": '', "localDraw6": '',
+    "away1": '', "away2": '', "away3": '', "away4": '', "away5": '', "away6": '',
+    "awayDraw1": '', "awayDraw2": '', "awayDraw3": '', "awayDraw4": '', "awayDraw5": '', "awayDraw6": ''
   }
   const [expanded, setExpanded] = useState<string | false>(false);
   const [open, setOpen] = useState(false);
@@ -54,14 +56,25 @@ export const useTournamentRoundsDetails = (handleCreate: (data: any) => void, to
       const dataRoundMatches = rounds.map((round, index) => {
         const home = parseInt(data[`local${index + 1}`], 10);
         const away = parseInt(data[`away${index + 1}`], 10);
+        const homeDraw = parseInt(data[`localDraw${index + 1}`], 10);
+        const awayDraw = parseInt(data[`awayDraw${index + 1}`], 10);
+
+        const returnPoints = (local: boolean) => {
+          if (local) {
+            if (home === away) return homeDraw > awayDraw ? 2 : 1
+            return home > away ? 3 : 0
+          }
+          if (home === away) return homeDraw > awayDraw ? 1 : 2
+          return home > away ? 0 : 3
+        }
         return {
           "roundId": parseInt(round.id, 10),
           "clubHomeScore": home,
-          "clubHomeScoreDraw": null,
-          "clubHomePoints": home > away ? 3 : 0,
+          "clubHomeScoreDraw": homeDraw || null,
+          "clubHomePoints": returnPoints(true),
           "clubAwayScore": away,
-          "clubAwayScoreDraw": null,
-          "clubAwayPoint": home > away ? 0 : 3
+          "clubAwayScoreDraw": awayDraw || null,
+          "clubAwayPoint": returnPoints(false)
         }
       });
 

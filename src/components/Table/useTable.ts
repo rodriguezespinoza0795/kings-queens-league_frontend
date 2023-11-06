@@ -6,8 +6,8 @@ export const useTable = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterValues, setFilterValues] = useState<any | null>(null);
 
-  const handleChange = (value: any) => {
-    setFilterValues(value);
+  const handleChange = (value: any, key: string) => {
+    setFilterValues({ ...filterValues, [key]: value });
   };
 
   const toggleFilter = () => setShowFilter(!showFilter);
@@ -25,8 +25,8 @@ export const useTable = () => {
 
   const filterData = (data: any[]) => {
     let filterData = data
-    if (filterValues) {
-      filterData = filterData.filter(item => item.club.id === filterValues.id)
+    if (filterValues?.ClubId) {
+      filterData = filterData.filter(item => item.club.id === filterValues?.ClubId?.id)
     }
     return filterData
   }

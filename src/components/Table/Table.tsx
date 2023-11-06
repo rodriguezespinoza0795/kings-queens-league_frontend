@@ -12,10 +12,6 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  Grid,
-  Autocomplete,
-  TextField,
-  Box,
 } from '@mui/material';
 import format from 'date-fns/format';
 import {
@@ -29,6 +25,7 @@ import {
 import { BasicTableProps } from './table.types';
 import { get } from 'lodash';
 import { useTable } from './useTable';
+import { Filters } from './components';
 
 function EnhancedTableToolbar({
   name,
@@ -65,6 +62,7 @@ export default function BasicTable({
   headers,
   name,
   rows,
+  catalogues,
   deleteItem,
   updateItem,
   detailsItem,
@@ -85,45 +83,13 @@ export default function BasicTable({
   return (
     <Paper sx={{ width: '100%', my: '20px' }}>
       <EnhancedTableToolbar name={name} toggleFilter={toggleFilter} />
-      <Grid
-        container
-        sx={{
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-        }}
-      >
-        {showFilter && rows[0].club && (
-          <Grid item xs={3}>
-            <Autocomplete
-              value={filterValues}
-              disablePortal
-              id="combo-box-demo"
-              getOptionLabel={(option) => option.name}
-              options={[...new Set(rows?.map((item) => item.club))]}
-              sx={{ width: 300 }}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  <img
-                    loading="lazy"
-                    width="20"
-                    src={option.image}
-                    alt={option.name}
-                  />
-                  {option.name}
-                </Box>
-              )}
-              renderInput={(params) => <TextField {...params} label="Club" />}
-              onChange={(_event: any, newValue: any | null) => {
-                handleChange(newValue);
-              }}
-            />
-          </Grid>
-        )}
-      </Grid>
+      {showFilter && (
+        <Filters
+          handleChange={handleChange}
+          catalogues={catalogues}
+          filterValues={filterValues}
+        />
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

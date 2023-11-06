@@ -41,6 +41,8 @@ const TournamentRoundsDetails = ({
   } = useTournamentRoundsDetails(handleCreate, tournamentData);
   const rounds = [...new Set(data?.map((item) => item.round))];
 
+  console.log('matchResults', matchResults);
+
   return (
     <>
       <Dialog handleClose={handleClose} open={open} title="Crear nueva jornada">
@@ -128,22 +130,52 @@ const TournamentRoundsDetails = ({
                         {item.clubHome.name}
                       </Typography>
                       {showField && (
-                        <TextField
-                          value={
+                        <>
+                          <TextField
+                            value={
+                              matchResults[
+                                `local${index + 1}` as keyof typeof matchResults
+                              ]
+                            }
+                            onChange={(e) =>
+                              setMatchResults({
+                                ...matchResults,
+                                [`local${index + 1}`]: e.target.value,
+                              })
+                            }
+                            label="local"
+                            variant="outlined"
+                            sx={{ width: '60px' }}
+                          />
+                          {matchResults[
+                            `local${index + 1}` as keyof typeof matchResults
+                          ] ===
+                            matchResults[
+                              `away${index + 1}` as keyof typeof matchResults
+                            ] &&
                             matchResults[
                               `local${index + 1}` as keyof typeof matchResults
-                            ]
-                          }
-                          onChange={(e) =>
-                            setMatchResults({
-                              ...matchResults,
-                              [`local${index + 1}`]: e.target.value,
-                            })
-                          }
-                          label="local"
-                          variant="outlined"
-                          sx={{ width: '60px' }}
-                        />
+                            ] !== '' && (
+                              <TextField
+                                value={
+                                  matchResults[
+                                    `localDraw${
+                                      index + 1
+                                    }` as keyof typeof matchResults
+                                  ]
+                                }
+                                onChange={(e) =>
+                                  setMatchResults({
+                                    ...matchResults,
+                                    [`localDraw${index + 1}`]: e.target.value,
+                                  })
+                                }
+                                label="Draw"
+                                variant="outlined"
+                                sx={{ width: '60px' }}
+                              />
+                            )}
+                        </>
                       )}
                     </Box>
                     <Typography align="center">VS</Typography>
@@ -155,22 +187,52 @@ const TournamentRoundsDetails = ({
                       }}
                     >
                       {showField && (
-                        <TextField
-                          value={
+                        <>
+                          {matchResults[
+                            `local${index + 1}` as keyof typeof matchResults
+                          ] ===
                             matchResults[
                               `away${index + 1}` as keyof typeof matchResults
-                            ]
-                          }
-                          onChange={(e) =>
-                            setMatchResults({
-                              ...matchResults,
-                              [`away${index + 1}`]: e.target.value,
-                            })
-                          }
-                          label="Visitante"
-                          variant="outlined"
-                          sx={{ width: '60px' }}
-                        />
+                            ] &&
+                            matchResults[
+                              `local${index + 1}` as keyof typeof matchResults
+                            ] !== '' && (
+                              <TextField
+                                value={
+                                  matchResults[
+                                    `awayDraw${
+                                      index + 1
+                                    }` as keyof typeof matchResults
+                                  ]
+                                }
+                                onChange={(e) =>
+                                  setMatchResults({
+                                    ...matchResults,
+                                    [`awayDraw${index + 1}`]: e.target.value,
+                                  })
+                                }
+                                label="Draw"
+                                variant="outlined"
+                                sx={{ width: '60px' }}
+                              />
+                            )}
+                          <TextField
+                            value={
+                              matchResults[
+                                `away${index + 1}` as keyof typeof matchResults
+                              ]
+                            }
+                            onChange={(e) =>
+                              setMatchResults({
+                                ...matchResults,
+                                [`away${index + 1}`]: e.target.value,
+                              })
+                            }
+                            label="Visitante"
+                            variant="outlined"
+                            sx={{ width: '60px' }}
+                          />
+                        </>
                       )}
                       <Avatar
                         alt="Remy Sharp"
