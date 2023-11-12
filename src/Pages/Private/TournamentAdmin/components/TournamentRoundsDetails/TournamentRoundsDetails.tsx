@@ -41,8 +41,6 @@ const TournamentRoundsDetails = ({
   } = useTournamentRoundsDetails(handleCreate, tournamentData);
   const rounds = [...new Set(data?.map((item) => item.round))];
 
-  console.log('matchResults', matchResults);
-
   return (
     <>
       <Dialog handleClose={handleClose} open={open} title="Crear nueva jornada">

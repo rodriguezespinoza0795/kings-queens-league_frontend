@@ -1,0 +1,37 @@
+query TournamentSimulator(
+  $whereTournamentGroup: TournamentGroupWhereInput
+  $whereRoundMatches: RoundMatchWhereInput
+  $whereTournamentRounds: TournamentRoundWhereInput
+) {
+  tournamentGroups(where: $whereTournamentGroup) {
+    id
+    name
+    clubId
+    club {
+      id
+      name
+      image
+    }
+  }
+  roundMatches(where: $whereRoundMatches) {
+    id
+    roundId
+    clubHomeScore
+    clubHomeScoreDraw
+    clubHomePoints
+    clubAwayScore
+    clubAwayScoreDraw
+    clubAwayPoint
+    isActive
+  }
+  tournamentRounds(where: $whereTournamentRounds) {
+    id
+    tournamentId
+    clubIdHome
+    clubIdAway
+    round
+    createdAt
+    updatedAt
+    isActive
+  }
+}

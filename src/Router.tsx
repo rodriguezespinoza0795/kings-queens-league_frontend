@@ -11,9 +11,9 @@ import {
   TournamentAdmin,
   TopPlayers,
   Login,
-  RecoveryPassword,
   SignUp,
   Home,
+  TournamentSimulator,
 } from './Pages';
 import { useIsLoggedIn } from '@/hooks';
 
@@ -25,9 +25,10 @@ export const AppRouter = () => {
       <Route path="/" element={<AppBar />}>
         <Route path="/" element={<Home />} />
         <Route path="/top-players" element={<TopPlayers />} />
+        <Route path="/top-players" element={<TopPlayers />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/recovery-password" element={<RecoveryPassword />} />
+        <Route path="/tournament-simulator" element={<TournamentSimulator />} />
         {isLoggedIn && (
           <>
             <Route path="/admin" element={<Tournament />} />

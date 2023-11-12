@@ -10,12 +10,14 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Button,
 } from '@mui/material';
 import { useHome } from './hooks';
 import { getPlayerByKey, sortData, sumScore } from './TopPlayers.utils';
 import { LineChart } from './components';
 import { get } from 'lodash';
 import { RoundMatch } from '@/types';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const {
@@ -25,6 +27,7 @@ const Home = () => {
     playerType,
     handleChangePlayer,
   } = useHome();
+  const navigate = useNavigate();
 
   const positions = [
     ...new Set(topPlayers.playerRounds.map((item) => item.player.positionId)),
@@ -80,19 +83,38 @@ const Home = () => {
   return (
     <Box sx={{ padding: '20px' }}>
       <Box>
-        <Typography variant="h5" textAlign={'center'}>
-          Clasificación
-        </Typography>
         <Box
           sx={{
             display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h5" textAlign={'center'}>
+            Clasificación
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => navigate('/tournament-simulator')}
+          >
+            Simular Torneo
+          </Button>
+        </Box>
+        <Grid
+          container
+          sx={{
             justifyContent: 'space-evenly',
             paddingY: '10px',
           }}
         >
-          <Box sx={{ display: 'grid', justifyItems: 'center' }}>
-            <Typography variant="h6">Grupo A</Typography>
-            <Table size="small">
+          <Grid item md={6} lg={6} sx={{ justifyItems: 'center' }}>
+            <Typography variant="h6" textAlign={'center'}>
+              Grupo A
+            </Typography>
+            <Table
+              size="small"
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
               <TableBody>
                 {topPlayers.tournamentGroups
                   ?.filter((item) => item.name === 'A')
@@ -116,10 +138,15 @@ const Home = () => {
                   ))}
               </TableBody>
             </Table>
-          </Box>
-          <Box sx={{ display: 'grid', justifyItems: 'center' }}>
-            <Typography variant="h6">Grupo B</Typography>
-            <Table size="small">
+          </Grid>
+          <Grid item md={6} lg={6} sx={{ justifyItems: 'center' }}>
+            <Typography variant="h6" textAlign={'center'}>
+              Grupo B
+            </Typography>
+            <Table
+              size="small"
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
               <TableBody>
                 {topPlayers.tournamentGroups
                   ?.filter((item) => item.name === 'B')
@@ -143,8 +170,8 @@ const Home = () => {
                   ))}
               </TableBody>
             </Table>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
       <Box
         sx={{
