@@ -1,10 +1,13 @@
 import { AppRouter } from './Router';
 import { GlobalProvider } from '@/context';
+import { ThemeConfig } from '../config/theme.config';
 
 function App() {
   return (
     <GlobalProvider>
-      <AppRouter />
+      <ThemeConfig>
+        <AppRouter />
+      </ThemeConfig>
     </GlobalProvider>
   );
 }

@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { GlobalContext } from '@/context';
+import { Notification } from '@/components';
+import { AlertColor } from '@mui/material';
 
 export const GlobalProvider = ({
   children,
@@ -7,6 +9,19 @@ export const GlobalProvider = ({
   children: React.ReactNode;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [msg, setMsg] = useState('');
+  const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState<AlertColor | undefined>(undefined);
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -20,13 +35,39 @@ export const GlobalProvider = ({
       setOpen(open);
     };
 
+  const getError = (msg: string) => {
+    setSeverity('error');
+    setShow(true);
+    setMsg(msg);
+  };
+
+  const getSuccess = (msg: string) => {
+    setSeverity('success');
+    setOpen(true);
+    setMsg(msg);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
   return (
     <GlobalContext.Provider
       value={{
         open,
         toggleDrawer,
+        mode,
+        colorMode,
+        getError,
+        getSuccess,
       }}
     >
+      <Notification
+        handleClose={handleClose}
+        open={show}
+        severity={severity}
+        msg={msg}
+      />
       {children}
     </GlobalContext.Provider>
   );

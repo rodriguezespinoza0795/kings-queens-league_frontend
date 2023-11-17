@@ -3,9 +3,11 @@ import { SubmitHandler } from 'react-hook-form';
 import { FormValues } from './useLogin.types'
 import { useNavigate } from 'react-router-dom';
 import { SignInDocument } from '@/types';
+import { useGlobal } from '@/context';
 
 export const useLogin = () => {
   const navigate = useNavigate();
+  const { getError } = useGlobal()
   const [fetch] = useMutation(SignInDocument, {
     onCompleted: ({ signIn }) => handleOnCompleted(signIn),
     onError: (error) => handleOnError(error)
@@ -28,6 +30,7 @@ export const useLogin = () => {
   };
 
   const handleOnError = (error: ApolloError) => {
+    if (error?.message === 'WRONG_PASSWORD') getError("Contraseña incorrecta")
     console.log('error', error?.message)
   };
 

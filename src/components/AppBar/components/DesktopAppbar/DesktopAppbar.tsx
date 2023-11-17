@@ -1,6 +1,10 @@
-import { Box, Typography, Button, MenuItem } from '@mui/material';
+import { Box, Typography, Button, MenuItem, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { KeyboardArrowDown } from '@mui/icons-material';
+import {
+  KeyboardArrowDown,
+  Brightness4,
+  Brightness7,
+} from '@mui/icons-material';
 import {
   publicRoutesPath,
   adminRoutesPath,
@@ -9,10 +13,14 @@ import { useIsLoggedIn } from '@/hooks';
 import { useAppBar } from '@/components/AppBar/useAppBar';
 import { StyledMenu } from './components';
 import { useDesktopAppBar } from './useDestopAppbar';
+import { useGlobal } from '@/context';
+import { useTheme } from '@mui/material/styles';
 
 const MenuComponent = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useIsLoggedIn();
+  const theme = useTheme();
+  const { colorMode } = useGlobal();
   const { getIcon } = useAppBar();
   const { handleClick, anchorEl, open, handleClose } = useDesktopAppBar();
 
@@ -75,6 +83,13 @@ const MenuComponent = () => {
             </StyledMenu>
           </>
         )}
+        <IconButton
+          sx={{ ml: 1 }}
+          onClick={colorMode.toggleColorMode}
+          color="inherit"
+        >
+          {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
       </Box>
     </>
   );
