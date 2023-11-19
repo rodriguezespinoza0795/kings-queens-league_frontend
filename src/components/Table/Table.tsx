@@ -30,9 +30,11 @@ import { Filters } from './components';
 function EnhancedTableToolbar({
   name,
   toggleFilter,
+  filter,
 }: {
   name: string;
   toggleFilter: () => void;
+  filter: boolean;
 }) {
   return (
     <Toolbar
@@ -49,11 +51,13 @@ function EnhancedTableToolbar({
       >
         {name}
       </Typography>
-      <Tooltip title="Filter list">
-        <IconButton onClick={toggleFilter}>
-          <FilterList />
-        </IconButton>
-      </Tooltip>
+      {filter && (
+        <Tooltip title="Mostrar Filtros">
+          <IconButton onClick={toggleFilter}>
+            <FilterList />
+          </IconButton>
+        </Tooltip>
+      )}
     </Toolbar>
   );
 }
@@ -66,6 +70,7 @@ export default function BasicTable({
   deleteItem,
   updateItem,
   detailsItem,
+  filter = true,
 }: BasicTableProps) {
   const {
     paginate,
@@ -82,7 +87,11 @@ export default function BasicTable({
 
   return (
     <Paper sx={{ width: '100%', my: '20px' }}>
-      <EnhancedTableToolbar name={name} toggleFilter={toggleFilter} />
+      <EnhancedTableToolbar
+        name={name}
+        toggleFilter={toggleFilter}
+        filter={filter}
+      />
       {showFilter && (
         <Filters
           handleChange={handleChange}

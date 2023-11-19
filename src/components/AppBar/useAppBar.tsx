@@ -7,6 +7,7 @@ import {
   GroupAdd,
   EmojiEvents,
   AdminPanelSettings,
+  Public,
 } from '@mui/icons-material';
 
 export const useAppBar = () => {
@@ -36,6 +37,8 @@ export const useAppBar = () => {
         return <EmojiEvents />;
       case 'AdminPanelSettingsIcon':
         return <AdminPanelSettings />;
+      case 'PublicIcon':
+        return <Public />;
     }
   };
 

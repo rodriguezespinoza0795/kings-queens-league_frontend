@@ -1,15 +1,21 @@
 export const adminRoutesPath = [
   {
+    key: 'club',
+    label: 'Club',
+    route: 'admin/club',
+    icon: 'AddModeratorIcon'
+  },
+  {
     key: 'clubCategory',
     label: 'Categoría de club',
     route: 'admin/club-category',
     icon: 'CategoryIcon'
   },
   {
-    key: 'club',
-    label: 'Club',
-    route: 'admin/club',
-    icon: 'AddModeratorIcon'
+    key: 'clubCountry',
+    label: 'País de club',
+    route: 'admin/club-country',
+    icon: 'PublicIcon'
   },
   {
     key: 'clubPresident',

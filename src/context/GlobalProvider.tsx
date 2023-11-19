@@ -43,7 +43,7 @@ export const GlobalProvider = ({
 
   const getSuccess = (msg: string) => {
     setSeverity('success');
-    setOpen(true);
+    setShow(true);
     setMsg(msg);
   };
 

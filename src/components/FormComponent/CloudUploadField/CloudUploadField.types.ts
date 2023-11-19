@@ -1,9 +1,8 @@
 import { Control } from 'react-hook-form';
 
-export type TextFieldProps = {
+export type CloudUploadFieldProps = {
   control: Control<any>;
   errors: any;
-  name: string
-  label: string
-  pattern?: any
+  watch: any;
+  defaultImage: string
 };

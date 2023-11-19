@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TextField, PasswordField } from '@/components';
 import { useLogin } from './useLogin';
+import { emailPattern } from './login.utils';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +36,13 @@ const Login = () => {
         <Typography textAlign="center" variant="h6">
           Inicia Sesión
         </Typography>
-        <TextField control={control} errors={errors} />
+        <TextField
+          control={control}
+          errors={errors}
+          label="Correo Electrónico"
+          name="email"
+          pattern={emailPattern}
+        />
         <PasswordField control={control} errors={errors} />
         <Link
           underline="hover"

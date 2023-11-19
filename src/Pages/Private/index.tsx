@@ -1,5 +1,6 @@
-export * from './ClubCategory';
 export * from './Club';
+export * from './ClubCategory';
+export * from './ClubCountry';
 export * from './ClubPresident';
 export * from './Position';
 export * from './PlayerType';

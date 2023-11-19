@@ -58,6 +58,21 @@ export type ClubCategoryInput = {
   name: Scalars['String']['input'];
 };
 
+export type ClubCountry = BaseModel & {
+  __typename?: 'ClubCountry';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  image: Scalars['String']['output'];
+  isActive: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type ClubCountryInput = {
+  image: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type ClubInput = {
   clubCategoryId: Scalars['Int']['input'];
   image: Scalars['String']['input'];
@@ -99,6 +114,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createClub: Club;
   createClubCategory: ClubCategory;
+  createClubCountry: ClubCountry;
   createClubPresident: ClubPresident;
   createPlayer: Player;
   createPlayerRound: Count;
@@ -111,6 +127,7 @@ export type Mutation = {
   createUser: User;
   deleteClub: Club;
   deleteClubCategory: ClubCategory;
+  deleteClubCountry: ClubCountry;
   deleteClubPresident: ClubPresident;
   deletePlayer: Player;
   deletePlayerRound: PlayerRound;
@@ -122,6 +139,7 @@ export type Mutation = {
   signIn: AuthenticationResponse;
   updateClub: Club;
   updateClubCategory: ClubCategory;
+  updateClubCountry: ClubCountry;
   updateClubPresident: ClubPresident;
   updatePlayer: Player;
   updatePlayerRound: PlayerRound;
@@ -141,6 +159,11 @@ export type MutationCreateClubArgs = {
 
 export type MutationCreateClubCategoryArgs = {
   data: ClubCategoryInput;
+};
+
+
+export type MutationCreateClubCountryArgs = {
+  data: ClubCountryInput;
 };
 
 
@@ -204,6 +227,11 @@ export type MutationDeleteClubCategoryArgs = {
 };
 
 
+export type MutationDeleteClubCountryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteClubPresidentArgs = {
   id: Scalars['ID']['input'];
 };
@@ -257,6 +285,12 @@ export type MutationUpdateClubArgs = {
 
 export type MutationUpdateClubCategoryArgs = {
   data: ClubCategoryInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateClubCountryArgs = {
+  data: ClubCountryInput;
   id: Scalars['ID']['input'];
 };
 
@@ -430,6 +464,8 @@ export type Query = {
   club?: Maybe<Club>;
   clubCategories: Array<Maybe<ClubCategory>>;
   clubCategory?: Maybe<ClubCategory>;
+  clubCountries: Array<Maybe<ClubCountry>>;
+  clubCountry?: Maybe<ClubCountry>;
   clubPresident?: Maybe<ClubPresident>;
   clubPresidents: Array<Maybe<ClubPresident>>;
   clubs: Array<Maybe<Club>>;
@@ -465,6 +501,18 @@ export type QueryClubCategoriesArgs = {
 
 
 export type QueryClubCategoryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryClubCountriesArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<NameWhereInput>;
+};
+
+
+export type QueryClubCountryArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -802,6 +850,35 @@ export type DeleteClubCategoryMutationVariables = Exact<{
 
 export type DeleteClubCategoryMutation = { __typename?: 'Mutation', deleteClubCategory: { __typename?: 'ClubCategory', id: string } };
 
+export type ClubCountriesQueryVariables = Exact<{
+  where?: InputMaybe<NameWhereInput>;
+}>;
+
+
+export type ClubCountriesQuery = { __typename?: 'Query', clubCountries: Array<{ __typename?: 'ClubCountry', id: string, image: string, name: string, createdAt: any, updatedAt?: any | null, isActive: number } | null> };
+
+export type CreateClubCountryMutationVariables = Exact<{
+  data: ClubCountryInput;
+}>;
+
+
+export type CreateClubCountryMutation = { __typename?: 'Mutation', createClubCountry: { __typename?: 'ClubCountry', id: string } };
+
+export type UpdateClubCountryMutationVariables = Exact<{
+  ClubCountryId: Scalars['ID']['input'];
+  data: ClubCountryInput;
+}>;
+
+
+export type UpdateClubCountryMutation = { __typename?: 'Mutation', updateClubCountry: { __typename?: 'ClubCountry', id: string } };
+
+export type DeleteClubCountryMutationVariables = Exact<{
+  ClubCountryId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteClubCountryMutation = { __typename?: 'Mutation', deleteClubCountry: { __typename?: 'ClubCountry', id: string } };
+
 export type ClubPresidentsQueryVariables = Exact<{
   where?: InputMaybe<NameWhereInput>;
 }>;
@@ -1069,6 +1146,10 @@ export const ClubCategoriesDocument = {"kind":"Document","definitions":[{"kind":
 export const CreateClubCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateClubCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubCategoryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createClubCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateClubCategoryMutation, CreateClubCategoryMutationVariables>;
 export const UpdateClubCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateClubCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ClubCategoryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubCategoryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateClubCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ClubCategoryId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateClubCategoryMutation, UpdateClubCategoryMutationVariables>;
 export const DeleteClubCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteClubCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ClubCategoryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteClubCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ClubCategoryId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteClubCategoryMutation, DeleteClubCategoryMutationVariables>;
+export const ClubCountriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"clubCountries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clubCountries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<ClubCountriesQuery, ClubCountriesQueryVariables>;
+export const CreateClubCountryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createClubCountry"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubCountryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createClubCountry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateClubCountryMutation, CreateClubCountryMutationVariables>;
+export const UpdateClubCountryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateClubCountry"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ClubCountryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubCountryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateClubCountry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ClubCountryId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateClubCountryMutation, UpdateClubCountryMutationVariables>;
+export const DeleteClubCountryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteClubCountry"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ClubCountryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteClubCountry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ClubCountryId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteClubCountryMutation, DeleteClubCountryMutationVariables>;
 export const ClubPresidentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"clubPresidents"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NameWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clubPresidents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"club"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<ClubPresidentsQuery, ClubPresidentsQueryVariables>;
 export const CreateClubPresidentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createClubPresident"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubPresidentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createClubPresident"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateClubPresidentMutation, CreateClubPresidentMutationVariables>;
 export const UpdateClubPresidentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateClubPresident"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ClubPresidentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ClubPresidentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateClubPresident"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ClubPresidentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateClubPresidentMutation, UpdateClubPresidentMutationVariables>;

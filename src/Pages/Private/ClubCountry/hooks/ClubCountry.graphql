@@ -1,0 +1,28 @@
+query clubCountries($where: NameWhereInput) {
+  clubCountries(where: $where) {
+    id
+    image
+    name
+    createdAt
+    updatedAt
+    isActive
+  }
+}
+
+mutation createClubCountry($data: ClubCountryInput!) {
+  createClubCountry(data: $data) {
+    id
+  }
+}
+
+mutation updateClubCountry($ClubCountryId: ID!, $data: ClubCountryInput!) {
+  updateClubCountry(id: $ClubCountryId, data: $data) {
+    id
+  }
+}
+
+mutation deleteClubCountry($ClubCountryId: ID!) {
+  deleteClubCountry(id: $ClubCountryId) {
+    id
+  }
+}

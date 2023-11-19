@@ -1,8 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppBar } from '@/components';
 import {
-  ClubCategory,
   Club,
+  ClubCategory,
+  ClubCountry,
   ClubPresident,
   Position,
   PlayerType,
@@ -32,9 +33,10 @@ export const AppRouter = () => {
         {isLoggedIn && (
           <>
             <Route path="/admin" element={<Tournament />} />
-            <Route path="/admin/tournament" element={<Tournament />} />
-            <Route path="/admin/club-category" element={<ClubCategory />} />
             <Route path="/admin/club" element={<Club />} />
+            <Route path="/admin/club-category" element={<ClubCategory />} />
+            <Route path="/admin/club-Country" element={<ClubCountry />} />
+            <Route path="/admin/tournament" element={<Tournament />} />
             <Route path="/admin/club-president" element={<ClubPresident />} />
             <Route path="/admin/position" element={<Position />} />
             <Route path="/admin/player-type" element={<PlayerType />} />
