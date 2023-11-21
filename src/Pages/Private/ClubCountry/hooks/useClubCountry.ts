@@ -46,7 +46,7 @@ export const useClubCountry = () => {
   };
 
   const onErrorFunction = (error: string) => {
-    if (error === 'COUNTRY_CLUB_ALREADY_EXISTS') {
+    if (error === 'ALREADY_EXISTS') {
       getError("El nombre del país ya existe")
     }
   }

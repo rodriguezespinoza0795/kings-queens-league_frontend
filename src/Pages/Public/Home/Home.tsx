@@ -120,11 +120,11 @@ const Home = () => {
                   ?.filter((item) => item.name === 'A')
                   .map((item) => ({ ...item, ...scores[item.clubId] }))
                   .sort((a, b) => {
-                    if (b.points < a.points) return -1;
-                    if (a.points > b.points) return 1;
-                    if (b.score < a.score) return -1;
-                    if (a.score > b.score) return 1;
-                    return 0;
+                    if (a.points == b.points) {
+                      return a.score > b.score ? -1 : a.score > b.score ? 1 : 0;
+                    } else {
+                      return a.points > b.points ? -1 : 1;
+                    }
                   })
                   .map((item) => (
                     <TableRow key={item.id}>
@@ -152,11 +152,11 @@ const Home = () => {
                   ?.filter((item) => item.name === 'B')
                   .map((item) => ({ ...item, ...scores[item.clubId] }))
                   .sort((a, b) => {
-                    if (b.points < a.points) return -1;
-                    if (a.points > b.points) return 1;
-                    if (b.score < a.score) return -1;
-                    if (a.score > b.score) return 1;
-                    return 0;
+                    if (a.points == b.points) {
+                      return a.score > b.score ? -1 : a.score > b.score ? 1 : 0;
+                    } else {
+                      return a.points > b.points ? -1 : 1;
+                    }
                   })
                   .map((item) => (
                     <TableRow key={item.id}>

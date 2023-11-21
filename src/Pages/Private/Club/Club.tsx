@@ -2,19 +2,17 @@ import { useClub } from './hooks';
 import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
 import { ClubForm, DeleteClub } from './components';
+import { headers } from './club.utils';
 
 const Club = () => {
   const {
-    headers,
     rows,
     deleteClub,
-    updateClub,
+    handleUpdate,
     handleClickOpen,
     handleClose,
     open,
     handleClickOpenUpdate,
-    handleCloseUpdate,
-    openUpdate,
     handleCreate,
     defaultValues,
     handleClickOpenDelete,
@@ -24,22 +22,11 @@ const Club = () => {
   } = useClub();
   return (
     <Box sx={{ padding: '20px' }}>
-      <Dialog handleClose={handleClose} open={open} title="Crear nuevo club">
+      <Dialog handleClose={handleClose} open={open} title="Club de Liga">
         <ClubForm
           handleClose={handleClose}
-          handleFunction={handleCreate}
-          defaultValues={{ id: '', name: '', image: '', clubCategoryId: 1 }}
-          catalogues={catalogues}
-        />
-      </Dialog>
-      <Dialog
-        handleClose={handleCloseUpdate}
-        open={openUpdate}
-        title="Modificar categoría"
-      >
-        <ClubForm
-          handleClose={handleCloseUpdate}
-          handleFunction={updateClub}
+          handleCreate={handleCreate}
+          handleUpdate={handleUpdate}
           defaultValues={defaultValues}
           catalogues={catalogues}
         />

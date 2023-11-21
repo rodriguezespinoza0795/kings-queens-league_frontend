@@ -4,14 +4,15 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   ClubsDocument,
   CreateClubDocument,
-  Club,
   DeleteClubDocument,
   UpdateClubDocument,
-  ClubCategoriesDocument
+  ClubAdminCataloguesDocument
 } from '@/types';
 import { uploadFile } from '@/utils';
+import { useGlobal } from '@/context';
 
 export const useClub = () => {
+  const { getError, getSuccess } = useGlobal()
   const [rows, setRows] = useState<unknown[]>([]);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -20,15 +21,17 @@ export const useClub = () => {
     name: '',
     image: '',
     id: '',
-    clubCategoryId: 1
+    clubCategoryId: '',
+    clubCountryId: '',
+    clubPresidentId: '',
+    color: '#ffffff'
   });
-  const [catalogues, setCatalogues] = useState<{ clubCategory: any[] }>({ clubCategory: [] });
+  const [catalogues, setCatalogues] = useState<{ clubCategories: any[], clubCountries: any[], clubPresidents: any[] }>({ clubCategories: [], clubCountries: [], clubPresidents: [] });
 
-  const [getClubCategories] = useLazyQuery(ClubCategoriesDocument, {
-    onCompleted: ({ clubCategories }) => setCatalogues({ ...catalogues, "clubCategory": clubCategories }),
+  const [getClubCategories] = useLazyQuery(ClubAdminCataloguesDocument, {
+    onCompleted: (data) => setCatalogues(data as any),
     onError: (error) => console.log('errors', error),
-  },
-  );
+  });
 
   useEffect(() => {
     getClubCategories({
@@ -45,17 +48,23 @@ export const useClub = () => {
   const handleClickOpen = () => setOpen(true);
   const handleClose: HandleClose = () => setOpen(false);
 
-  const handleClickOpenUpdate = (data: Club) => {
+  const handleClickOpenUpdate = (data: any) => {
     setOpenUpdate(true);
     setDefaultValues(data);
   };
   const handleCloseUpdate: HandleClose = () => setOpenUpdate(false);
 
-  const handleClickOpenDelete = (data: Club) => {
+  const handleClickOpenDelete = (data: any) => {
     setOpenDelete(true);
     setDefaultValues(data);
   };
   const handleCloseDelete: HandleClose = () => setOpenDelete(false);
+
+  const onErrorFunction = (error: string) => {
+    if (error === 'ALREADY_EXISTS') {
+      getError("El nombre del país ya existe")
+    }
+  }
 
   const [getClubs, { refetch }] = useLazyQuery(
     ClubsDocument,
@@ -65,9 +74,14 @@ export const useClub = () => {
     },
   );
 
-  const [fetch] = useMutation(CreateClubDocument, {
+  const [fetchCreate] = useMutation(CreateClubDocument, {
     onCompleted: () => refetchData(),
-    onError: (error) => console.log('errors', error),
+    onError: (error) => onErrorFunction(error.message),
+  });
+
+  const [fetchUpdate] = useMutation(UpdateClubDocument, {
+    onCompleted: () => refetchData(),
+    onError: (error) => onErrorFunction(error.message),
   });
 
   const [fetchDelete] = useMutation(DeleteClubDocument, {
@@ -75,15 +89,10 @@ export const useClub = () => {
     onError: (error) => console.log('errors', error),
   });
 
-  const [fetchUpdate] = useMutation(UpdateClubDocument, {
-    onCompleted: () => refetchData(),
-    onError: (error) => console.log('errors', error),
-  });
-
   const refetchData = async () => {
-    const {
-      data: { clubs },
-    } = await refetch();
+    const { data: { clubs } } = await refetch();
+    getSuccess("Operación Exitosa")
+    handleClose()
     setRows(clubs);
   };
 
@@ -107,31 +116,40 @@ export const useClub = () => {
     });
   };
 
-  const handleCreate = async (data?: {
+  const handleCreate = async (data: {
     id: string
     name: string
     image: File[] | string
-    clubCategoryId: number
+    clubCategoryId: string
+    clubCountryId: string
+    clubPresidentId: string
+    color: string
   }) => {
     const formData = new FormData();
     formData.append('file', data?.image?.[0] || '');
     const response = await uploadFile(formData);
-    fetch({
+    fetchCreate({
       variables: {
         data: {
           name: data?.name || '',
           image: response.secure_url,
-          clubCategoryId: data?.clubCategoryId || 0
+          clubCategoryId: parseInt(data.clubCategoryId, 10) || 0,
+          clubCountryId: parseInt(data.clubCountryId, 10) || 0,
+          clubPresidentId: parseInt(data.clubPresidentId, 10) || 0,
+          color: data?.color.replace('#', '') || 'ffffff'
         },
       },
     });
   }
 
-  const updateClub = async (data?: {
+  const handleUpdate = async (data: {
     id: string
     name: string
     image: File[] | string
-    clubCategoryId: number
+    clubCategoryId: string
+    clubCountryId: string
+    clubPresidentId: string
+    color: string
   }) => {
     let url = defaultValues?.image;
     if (data?.image.length === 1) {
@@ -146,29 +164,19 @@ export const useClub = () => {
         data: {
           name: data?.name || '',
           image: url,
-          clubCategoryId: data?.clubCategoryId || 0
+          clubCategoryId: parseInt(data.clubCategoryId, 10) || 0,
+          clubCountryId: parseInt(data.clubCountryId, 10) || 0,
+          clubPresidentId: parseInt(data.clubPresidentId, 10) || 0,
+          color: data?.color.replace('#', '') || 'ffffff'
         },
       },
     });
   };
 
-  const headers = [
-    { key: 'id', name: 'ID', type: 'text' },
-    { key: 'image', name: 'Icono', type: 'image' },
-    { key: 'name', name: 'Nombre', type: 'text' },
-    { key: 'clubCategory.image', name: 'Categoría', type: 'image' },
-    { key: 'clubPresident.image', name: 'Presidente', type: 'image' },
-    { key: 'createdAt', name: 'Fecha de Creación', type: 'date' },
-    { key: 'updatedAt', name: 'Fecha de Modificación', type: 'date' },
-    { key: 'isActive', name: 'Activo', type: 'boolean' },
-    { key: 'actions', name: 'Acciones', type: 'actions' },
-  ];
-
   return {
-    headers,
     rows,
     deleteClub,
-    updateClub,
+    handleUpdate,
     handleCreate,
     handleClickOpen,
     handleClose,

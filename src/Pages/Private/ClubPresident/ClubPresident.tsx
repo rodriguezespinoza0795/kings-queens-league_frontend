@@ -1,66 +1,54 @@
-import { useClubPresident } from './hooks';
 import { Button, Box } from '@mui/material';
 import { Table, Dialog } from '@/components';
-import { ClubPresidentForm, DeleteClub } from './components';
+import { headers } from './ClubPresident.utils';
+import { useClubPresident } from './hooks';
+import { ClubPresidentForm, DeleteClubPresident } from './components';
 
 const ClubPresident = () => {
   const {
-    headers,
     rows,
-    deleteClub,
-    updateClubPresident,
-    handleClickOpen,
+    handleOpen,
     handleClose,
     open,
-    handleClickOpenUpdate,
-    handleCloseUpdate,
-    openUpdate,
-    handleCreate,
     defaultValues,
-    handleClickOpenDelete,
+    handleCreatePresident,
+    handleOpenUpdate,
+    handleUpdatePresident,
     handleCloseDelete,
     openDelete,
+    handleOpenDelete,
+    deleteClubPresident,
   } = useClubPresident();
   return (
     <Box sx={{ padding: '20px' }}>
-      <Dialog
-        handleClose={handleClose}
-        open={open}
-        title="Crear nuevo presidente"
-      >
+      <Dialog handleClose={handleClose} open={open} title="Presidente de Liga">
         <ClubPresidentForm
           handleClose={handleClose}
-          handleFunction={handleCreate}
-          defaultValues={{ id: '', name: '', image: '' }}
-        />
-      </Dialog>
-      <Dialog
-        handleClose={handleCloseUpdate}
-        open={openUpdate}
-        title="Modificar categoría"
-      >
-        <ClubPresidentForm
-          handleClose={handleCloseUpdate}
-          handleFunction={updateClubPresident}
+          handleCreate={handleCreatePresident}
+          handleUpdate={handleUpdatePresident}
           defaultValues={defaultValues}
         />
       </Dialog>
       <Dialog
         handleClose={handleCloseDelete}
         open={openDelete}
-        title="Eliminar Presidente"
+        title="Eliminar categoría"
       >
-        <DeleteClub handleClose={handleCloseDelete} handleDelete={deleteClub} />
+        <DeleteClubPresident
+          handleClose={handleCloseDelete}
+          handleDelete={deleteClubPresident}
+        />
       </Dialog>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Crear Nuevo Presidente
+      <Button variant="contained" onClick={handleOpen}>
+        Crear Nuevo Presidente de Club
       </Button>
       <Table
         headers={headers}
-        rows={rows}
         name="Presidentes"
-        deleteItem={handleClickOpenDelete}
-        updateItem={handleClickOpenUpdate}
+        rows={rows}
+        filter={false}
+        updateItem={handleOpenUpdate}
+        deleteItem={handleOpenDelete}
       />
     </Box>
   );

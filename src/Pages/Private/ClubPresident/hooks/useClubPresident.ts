@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
-import { HandleClose } from './useClubPresident.types';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   ClubPresidentsDocument,
   CreateClubPresidentDocument,
-  ClubPresident,
-  DeleteClubPresidentDocument,
   UpdateClubPresidentDocument,
+  DeleteClubPresidentDocument,
+  ClubPresident
 } from '@/types';
+import { useGlobal } from '@/context';
 import { uploadFile } from '@/utils';
 
 export const useClubPresident = () => {
+  const { getError, getSuccess } = useGlobal()
   const [rows, setRows] = useState<unknown[]>([]);
   const [open, setOpen] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [defaultValues, setDefaultValues] = useState({
     name: '',
@@ -21,22 +21,7 @@ export const useClubPresident = () => {
     id: '',
   });
 
-  const handleClickOpen = () => setOpen(true);
-  const handleClose: HandleClose = () => setOpen(false);
-
-  const handleClickOpenUpdate = (data: ClubPresident) => {
-    setOpenUpdate(true);
-    setDefaultValues(data);
-  };
-  const handleCloseUpdate: HandleClose = () => setOpenUpdate(false);
-
-  const handleClickOpenDelete = (data: ClubPresident) => {
-    setOpenDelete(true);
-    setDefaultValues(data);
-  };
-  const handleCloseDelete: HandleClose = () => setOpenDelete(false);
-
-  const [getClubs, { refetch }] = useLazyQuery(
+  const [getClubPresidents, { refetch }] = useLazyQuery(
     ClubPresidentsDocument,
     {
       onCompleted: ({ clubPresidents }) => setRows(clubPresidents),
@@ -44,30 +29,47 @@ export const useClubPresident = () => {
     },
   );
 
-  const [fetch] = useMutation(CreateClubPresidentDocument, {
-    onCompleted: () => refetchData(),
-    onError: (error) => console.log('errors', error),
-  });
+  const handleOpen = () => {
+    setDefaultValues({
+      name: '',
+      image: '',
+      id: '',
+    }); setOpen(true);
+  }
 
-  const [fetchDelete] = useMutation(DeleteClubPresidentDocument, {
+  const handleClose = () => setOpen(false);
+  const handleCloseDelete = () => setOpenDelete(false);
+
+  const handleOpenUpdate = (data: ClubPresident) => {
+    setDefaultValues(data);
+    setOpen(true);
+  };
+
+  const onErrorFunction = (error: string) => {
+    if (error === 'ALREADY_EXISTS') {
+      getError("El nombre del país ya existe")
+    }
+  }
+
+  const [fetchCreate] = useMutation(CreateClubPresidentDocument, {
     onCompleted: () => refetchData(),
-    onError: (error) => console.log('errors', error),
+    onError: (error) => onErrorFunction(error.message),
   });
 
   const [fetchUpdate] = useMutation(UpdateClubPresidentDocument, {
     onCompleted: () => refetchData(),
-    onError: (error) => console.log('errors', error),
+    onError: (error) => onErrorFunction(error.message),
   });
 
   const refetchData = async () => {
-    const {
-      data: { clubPresidents },
-    } = await refetch();
+    getSuccess("Operación Exitosa")
+    handleClose()
+    const { data: { clubPresidents } } = await refetch();
     setRows(clubPresidents);
   };
 
   useEffect(() => {
-    getClubs({
+    getClubPresidents({
       variables: {
         where: {
           isActive: {
@@ -78,33 +80,24 @@ export const useClubPresident = () => {
     });
   }, []);
 
-  const deleteClub = () => {
-    fetchDelete({
-      variables: {
-        ClubPresidentId: defaultValues.id,
-      },
-    });
-  };
-
-  const handleCreate = async (data?: {
-    id: string
+  const handleCreatePresident = async (data: {
     name: string
     image: File[] | string
   }) => {
     const formData = new FormData();
     formData.append('file', data?.image?.[0] || '');
     const response = await uploadFile(formData);
-    fetch({
+    fetchCreate({
       variables: {
         data: {
-          name: data?.name || '',
+          name: data.name,
           image: response.secure_url,
         },
       },
     });
   }
 
-  const updateClubPresident = async (data?: {
+  const handleUpdatePresident = async (data?: {
     id: string
     name: string
     image: File[] | string
@@ -121,37 +114,43 @@ export const useClubPresident = () => {
         ClubPresidentId: defaultValues.id,
         data: {
           name: data?.name || '',
-          image: url,
+          image: url
         },
       },
     });
   };
 
-  const headers = [
-    { key: 'id', name: 'ID', type: 'text' },
-    { key: 'image', name: 'Icono', type: 'image' },
-    { key: 'name', name: 'Nombre', type: 'text' },
-    { key: 'createdAt', name: 'Fecha de Creación', type: 'date' },
-    { key: 'updatedAt', name: 'Fecha de Modificación', type: 'date' },
-    { key: 'isActive', name: 'Activo', type: 'boolean' },
-    { key: 'actions', name: 'Acciones', type: 'actions' },
-  ];
+
+  const handleOpenDelete = (data: ClubPresident) => {
+    setOpenDelete(true);
+    setDefaultValues(data);
+  };
+
+  const [fetchDelete] = useMutation(DeleteClubPresidentDocument, {
+    onCompleted: () => refetchData(),
+    onError: (error) => onErrorFunction(error.message),
+  });
+
+  const deleteClubPresident = () => {
+    fetchDelete({
+      variables: {
+        ClubPresidentId: defaultValues.id,
+      },
+    });
+  };
 
   return {
-    headers,
     rows,
-    deleteClub,
-    updateClubPresident,
-    handleCreate,
-    handleClickOpen,
+    handleOpen,
     handleClose,
     open,
-    handleClickOpenUpdate,
-    handleCloseUpdate,
-    openUpdate,
-    handleClickOpenDelete,
+    defaultValues,
+    handleCreatePresident,
+    handleUpdatePresident,
+    handleOpenUpdate,
     handleCloseDelete,
     openDelete,
-    defaultValues,
+    handleOpenDelete,
+    deleteClubPresident
   };
 };

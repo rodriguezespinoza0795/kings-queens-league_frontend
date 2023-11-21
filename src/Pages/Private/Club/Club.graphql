@@ -38,3 +38,32 @@ mutation deleteClub($ClubId: ID!) {
     id
   }
 }
+
+query ClubAdminCatalogues(
+  $where: NameWhereInput
+  $whereCountry: NameWhereInput
+  $wherePresident: NameWhereInput
+) {
+  clubCategories(where: $where) {
+    id
+    name
+    image
+    isActive
+  }
+  clubCountries(where: $whereCountry) {
+    id
+    name
+    image
+    isActive
+  }
+  clubPresidents(where: $wherePresident) {
+    id
+    name
+    image
+    club {
+      id
+      name
+    }
+    isActive
+  }
+}

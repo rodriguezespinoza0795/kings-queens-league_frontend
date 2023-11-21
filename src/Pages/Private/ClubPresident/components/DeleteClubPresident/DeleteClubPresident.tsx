@@ -1,8 +1,11 @@
 import { Box } from '@mui/material';
-import { DeleteClubProps } from './DeleteClubPresident.types';
+import { DeleteClubCategoryProps } from './DeleteClubPresident.types';
 import { DialogActions } from '@/components';
 
-const DeleteClub = ({ handleClose, handleDelete }: DeleteClubProps) => {
+const DeleteClubCategory = ({
+  handleClose,
+  handleDelete,
+}: DeleteClubCategoryProps) => {
   const onSubmit = async () => {
     handleDelete();
     handleClose();
@@ -26,4 +29,4 @@ const DeleteClub = ({ handleClose, handleDelete }: DeleteClubProps) => {
   );
 };
 
-export default DeleteClub;
+export default DeleteClubCategory;

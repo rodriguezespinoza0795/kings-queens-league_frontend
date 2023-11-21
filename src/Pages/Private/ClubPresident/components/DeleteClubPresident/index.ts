@@ -1,1 +1,1 @@
-export { default as DeleteClub } from './DeleteClubPresident'
+export { default as DeleteClubPresident } from './DeleteClubPresident'

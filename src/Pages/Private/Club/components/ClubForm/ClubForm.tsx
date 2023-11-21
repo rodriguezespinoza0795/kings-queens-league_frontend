@@ -1,53 +1,35 @@
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Avatar,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { CloudUpload } from '@mui/icons-material';
+import { Box } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { DataValues, ClubFormProps } from './ClubForm.types';
-import { DialogActions } from '@/components';
-import { get } from 'lodash';
-
-const VisuallyHiddenInput = styled('input')`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-`;
+import {
+  DialogActions,
+  TextField,
+  CloudUploadField,
+  ToggleButton,
+  Select,
+  ColorPicker,
+} from '@/components';
 
 const ClubForm = ({
   handleClose,
-  handleFunction,
+  handleCreate,
+  handleUpdate,
   defaultValues,
   catalogues,
 }: ClubFormProps) => {
   const {
-    register,
+    control,
     handleSubmit,
     watch,
     formState: { errors },
-    setValue,
-  } = useForm<DataValues>({
-    defaultValues: {
-      name: defaultValues?.name,
-      clubCategoryId: defaultValues?.clubCategoryId,
-    },
-  });
+  } = useForm<DataValues>({ defaultValues });
 
   const onSubmit: SubmitHandler<DataValues> = async (data) => {
-    handleFunction(data);
-    handleClose();
+    if (data.id) {
+      handleUpdate(data);
+    } else {
+      handleCreate(data);
+    }
   };
 
   return (
@@ -64,66 +46,37 @@ const ClubForm = ({
         }}
       >
         <TextField
-          id="name"
+          control={control}
+          errors={errors}
+          name="name"
           label="Nombre"
-          variant="outlined"
-          fullWidth
-          {...register('name', { required: 'Este campo es obligatorio' })}
-          error={!!errors?.name}
-          helperText={errors?.name?.message?.toString()}
         />
-        <ToggleButtonGroup
-          color="primary"
-          value={watch('clubCategoryId').toString()}
-          exclusive
-          aria-label="Platform"
-        >
-          {catalogues.clubCategory.map((item) => (
-            <ToggleButton
-              value={item.id}
-              onClick={() => setValue('clubCategoryId', parseInt(item.id))}
-              key={item.id}
-            >
-              <Avatar alt="Remy Sharp" src={item.image} />
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-        <Box sx={{ width: '100%' }}>
-          <Button
-            component="label"
-            variant="contained"
-            startIcon={<CloudUpload />}
-            href="#file-upload"
-            fullWidth
-          >
-            Seleccionar Imagen
-            <VisuallyHiddenInput
-              type="file"
-              {...register('image', {
-                required: defaultValues?.image
-                  ? false
-                  : 'Este campo es obligatorio',
-              })}
-            />
-          </Button>
-          {errors.image && (
-            <Typography variant="caption">
-              {errors.image.message?.toString()}
-            </Typography>
-          )}
-        </Box>
-        {watch('image') && (
-          <Typography variant="subtitle1">
-            {get(watch('image')[0], 'name')}
-          </Typography>
-        )}
-        {defaultValues?.image && !watch('image')?.length && (
-          <Avatar
-            alt="Remy Sharp"
-            src={defaultValues?.image as string}
-            sx={{ width: 100, height: 100 }}
-          />
-        )}
+        <ToggleButton
+          control={control}
+          name="clubCategoryId"
+          catalogues={catalogues.clubCategories}
+          errors={errors}
+        />
+        <ToggleButton
+          control={control}
+          name="clubCountryId"
+          catalogues={catalogues.clubCountries}
+          errors={errors}
+        />
+        <Select
+          control={control}
+          name="clubPresidentId"
+          catalogues={catalogues.clubPresidents.map((item) => item)}
+          errors={errors}
+          label="Presidente"
+        />
+        <ColorPicker control={control} name="color" />
+        <CloudUploadField
+          control={control}
+          errors={errors}
+          watch={watch}
+          defaultImage={defaultValues?.image as string}
+        />
         <DialogActions handleClose={handleClose} />
       </Box>
     </>

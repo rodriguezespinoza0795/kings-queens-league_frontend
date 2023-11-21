@@ -4,9 +4,13 @@ export type DataValues = {
     image: File[] | string
 }
 
-export type ClubFormProps = {
+export type ClubCategoryFormProps = {
     handleClose: () => void
-    handleFunction: (data: {
+    handleCreate: (data: {
+        name: string
+        image: File[] | string
+    }) => void
+    handleUpdate: (data: {
         id: string
         name: string
         image: File[] | string

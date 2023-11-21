@@ -24,7 +24,7 @@ const CloudUploadField = ({
   defaultImage,
 }: CloudUploadFieldProps) => {
   return (
-    <Box sx={{ width: '100%', display: 'grid', justifyItems: 'center' }}>
+    <Box sx={{ width: '100%', display: 'grid', justifyItems: 'flex-start' }}>
       <Controller
         name="image"
         control={control}
